@@ -18,7 +18,8 @@
     ]
   },
   "devDependencies": {
-    "prettier": "^3.3.3"
+    "prettier": "^3.3.3",
+    "nx": "19.8.0"
   },
   "scripts": {
     "format": "prettier \"{apps,libs,standalone}/**/*.{ts,tsx,js,json}\" --ignore-path .gitignore",

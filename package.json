@@ -1,0 +1,20 @@
+{
+  "name": "recycle-blockchain-tracker",
+  "version": "0.16.0",
+  "description": "This monorepo is a fullstack decentralized application, designed tfor toxic waste management.",
+  "main": "index.js",
+  "repository": "https://github.com/arepaFlipper/recycle-blockchain-tracker",
+  "author": "Cristian F. Tovar <cristian00tovar@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "apps/*",
+      "libs/*"
+    ],
+    "nohoist": [
+      "**/@nestjs",
+      "**/@nestjs/**"
+    ]
+  }
+}

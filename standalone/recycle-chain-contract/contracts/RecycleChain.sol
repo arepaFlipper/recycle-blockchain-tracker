@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.21;
+import '@openzeppelin/contracts/utils/Strings.sol';
+
 
 // Uncomment this line to use console.log
 // import "hardhat/console.sol";
@@ -53,7 +55,7 @@ contract RecycleChain {
   event ProductCreated(uint256 productId, string name, address manufacturer);
   event ToxicItemCreated(uint256 productId, string name, uint256 weight);
   event ProductItemsAdded(string[] itemsIds, uint256 productId);
-  event ProductItemsStatusChanged(string[] itemsIds, ProductStatus status);
+  event ProductItemsStatusChanged(uint256[] itemsIds, ProductStatus status);
   event ManufacturerRegistered(
     address manufaturer,
     string name,
@@ -110,6 +112,47 @@ contract RecycleChain {
 
       emit ToxicItemCreated(productId, toxicNames[i], toxicWeights[i]);
     }
+  }
+
+  function addProductItems(uint256 _productId, uint256 _quantity) public {
+    require( _quantity <= 10, 'Cannot add more than 10 product items at a time.');
+    require( msg.sender == products[_productId].manufacturer, 'Only the product manufacturer can add product items.');
+    require( products[_productId].id == _productId, 'Product does not exist');
+
+    string[] memory newProductItemIds = new string[](_quantity);
+
+    for (uint256 i=0; i < _quantity; i++) {
+      string memory itemId = string( abi.encode( Strings.toString(_productId), '-', Strings.toString(products[_productId].quantity + i +1) ) );
+
+      ProductItem memory newItem = ProductItem({
+        id: itemId,
+        productId: _productId,
+        status: ProductStatus.MANUFACTURED
+      });
+
+      productItem[itemId] = newItem;
+      inventory[msg.sender].push(itemId);
+      newProductItemIds[i] = itemId;
+    }
+
+    products[_productId].quantity += _quantity;
+
+    emit ProductItemsAdded(newProductItemIds, _productId);
+  }
+
+  function sellProductItems(uint256[] memory itemIds, ProductItem[] memory productItems) public {
+    for (uint256 i = 0; i < itemIds.length; i++) {
+        uint256 itemId = itemIds[i];
+
+        require(productItems[itemId].productId != 0, 'Product item does not exist.');
+
+        // NOTE: Check that the product item is in the manufactured state
+        require(productItems[itemId].status == ProductStatus.MANUFACTURED, 'Only the product manufacturer can sell product items');
+
+        // NOTE: Update status to SOLD
+        productItems[itemId].status = ProductStatus.SOLD;
+    }
+    emit ProductItemsStatusChanged(itemIds, ProductStatus.SOLD);
   }
 
 }

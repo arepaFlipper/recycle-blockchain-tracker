@@ -31,7 +31,6 @@ contract RecycleChain {
   struct ToxicItem {
     string name;
     uint256 weight;
-    uint256 productId;
   }
 
   struct ProductItem {
@@ -98,6 +97,19 @@ contract RecycleChain {
     newProduct.name = _name;
     newProduct.quantity = 0;
     newProduct.manufacturer = msg.sender;
+
+    emit ProductCreated(productId, _name, msg.sender);
+
+    for(uint256 i=0; i< toxicNames.length; i++){
+      ToxicItem memory toxicItem = ToxicItem({
+        name: toxicNames[i],
+        weight: toxicWeights[i]
+      });
+
+      products[productId].toxicItems.push(toxicItem);
+
+      emit ToxicItemCreated(productId, toxicNames[i], toxicWeights[i]);
+    }
   }
 
 }

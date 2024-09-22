@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "module": "commonjs", // Or "esnext" if you prefer
+    "target": "es2020", // Or a compatible version
+    "outDir": "dist", // Optional: Specify an output directory for compiled JavaScript
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true
+  }
+}

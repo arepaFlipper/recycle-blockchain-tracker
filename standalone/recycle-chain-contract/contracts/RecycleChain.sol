@@ -62,4 +62,42 @@ contract RecycleChain {
     string contact
   );
 
+  function registerManufaturer(
+    string memory _name,
+    string memory _location,
+    string memory _contact
+  ) public{
+    require(bytes(_name).length > 0, 'Manufacturer name cannot be empty');
+    require(bytes(manufacturers[msg.sender].name).length == 0, 'Manufacturer already registered');
+
+    Manufacturer memory newManufacturer = Manufacturer({
+      name: _name,
+      location: _location,
+      contact: _contact
+    });
+
+    manufacturers[msg.sender] = newManufacturer;
+    emit ManufacturerRegistered(msg.sender, _name, _location, _contact);
+  }
+
+  function addProduct(
+    string memory _name,
+    string[] memory toxicNames,
+    uint256[] memory toxicWeights
+  )public {
+    require(bytes(_name).length > 0, 'Product name cannot be empty');
+    require(toxicNames.length == toxicWeights.length, 'Toxic items array length mismatch');
+    require(bytes(manufacturers[msg.sender].name).length > 0, 'Manufacturer not registered');
+
+    productCounter++;
+
+    uint256 productId = productCounter;
+
+    Product storage newProduct = products[productId];
+    newProduct.id = productId;
+    newProduct.name = _name;
+    newProduct.quantity = 0;
+    newProduct.manufacturer = msg.sender;
+  }
+
 }

@@ -155,4 +155,15 @@ contract RecycleChain {
     emit ProductItemsStatusChanged(itemIds, ProductStatus.SOLD);
   }
 
+  function returnProductItems(uint256[] memory itemIds, ProductItem[] memory productItems) public {
+    for (uint256 i = 0; i < itemIds.length; i++) {
+      uint256 productId = productItems[itemIds[i]].productId;
+      require(productItems[itemIds[i]].status == ProductStatus.SOLD, 'Product Item cannot be returned');
+      require(msg.sender == products[productId].manufacturer, 'Only the product manufacturer can sell product items.');
+
+      productItems[itemIds[i]].status = ProductStatus.RETURNED;
+    }
+    emit ProductItemsStatusChanged(itemIds, ProductStatus.RETURNED);
+  }
+
 }

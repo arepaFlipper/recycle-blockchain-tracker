@@ -111,8 +111,25 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy {
           console.log(`📈items`, items); //DELETEME:
         }
       )
+      console.log(`🛸  Event: Product item added change Listening...`);
     } catch (error) {
+      console.error('Event: Product item add: Listener setup failed.', error);
+    }
 
+    try {
+      this.contract.on(
+        this.contract.filters.ToxicItemCreated,
+        async (productId, name, weight, event) => {
+          // @ts-expect-error The blockNumber is got from event.log
+          const timestamp = await this.getBlockTimeStamp(event.log.blockNumber);
+
+          await this.createToxicItem({ name, productId: productId.toString(), weight: Number(weight.toString()), timestamp })
+        }
+      )
+
+      console.log(`🕊️  Event: Toxic Product create Listening...`);
+    } catch (error) {
+      console.error('Event: Toxic Product create add: Listener setup failed.', error);
     }
 
   }
@@ -186,5 +203,29 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy {
     });
 
     return this.prisma.$transaction([productItemUpdates, ...transactions]);
+  }
+
+  private async createToxicItem({ productId, name, weight, timestamp }:
+    { productId: string, name: string, weight: number, timestamp: Date }) {
+    const maxRetries = 5;
+    let retryCount = 0;
+    const delay = (ms: number) => {
+      return new Promise((resolve) => setTimeout(resolve, ms));
+    }
+
+    while (retryCount < maxRetries) {
+      const product = await this.prisma.product.findUnique({ where: { id: productId } });
+
+      if (product) {
+        const toxicItem = await this.prisma.toxicItem.create({ data: { name, weight, productId, timestamp } });
+        console.log(`🎤 toxicItem`, toxicItem); //DELETEME:
+        return
+      } else {
+        console.error(`Product with ID ${productId} not found. Retrying (${retryCount + 1}/${maxRetries})`)
+        await delay(1000);
+        retryCount++;
+      }
+    }
+
   }
 }

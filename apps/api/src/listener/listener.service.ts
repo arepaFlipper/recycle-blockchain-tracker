@@ -35,14 +35,14 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy {
 
   subscribeToEvents() {
     try {
-      this.contract.on(this.contract.filters.ManufacturerRegistered, async (id, name, location, contact, event) => {
-        // @ts-expect-error get blockNumber from event
-        const blockNumber = event.log.blockNumber
-        const timestamp = await this.getBlockTimeStamp(blockNumber)
-
-        const newManufacturer = await this.prisma.manufacturer.create({ data: { contact, id, location, name, timestamp } })
-        console.log(`🪞 Manufacturer created:`, newManufacturer); //DELETEME:
-      },
+      this.contract.on(
+        this.contract.filters.ManufacturerRegistered,
+        async (id, name, location, contact, event) => {
+          // @ts-expect-error get The blockNumber from log property
+          const blockNumber = event.log.blockNumber;
+          const timestamp = await this.getBlockTimeStamp(blockNumber);
+          await this.createManufacturer({ contact, id, location, name, timestamp });
+        }
       )
       console.log(`🪫  Event: ManufacturerRegistered Listening...`);
       // this.contract.on(this.contract.filters.ProductItemsAdded, (manufacturer, name) => { })
@@ -53,16 +53,13 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy {
     try {
       this.contract.on(
         this.contract.filters.ProductCreated,
-        async (id, name, manufacturerId, event) => {
+        async (productId, name, manufacturer, event) => {
           // @ts-expect-error get blockNumber from event
           const blockNumber = event.log.blockNumber
           const timestamp = await this.getBlockTimeStamp(blockNumber)
 
-          const newProduct = await this.prisma.product.create({
-            data: { id: id.toString(), name, timestamp, manufacturerId }
-          });
-
-          console.log(`🧧 Product created`, newProduct); //DELETEME:
+          const newProduct = await this.createProduct({ manufacturer, name, productId: productId.toString(), timestamp })
+          console.log(`🧧 Product created`, newProduct);
         }
       )
       console.log(`🌀  Event: ProductCrated Listening...`);
@@ -80,5 +77,29 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy {
   async getBlockTimeStamp(blockNumber: number) {
     const block = await this.provider.getBlock(blockNumber)
     return new Date(block.timestamp)
+  }
+
+
+  // NOTE: DB writes
+  private async createManufacturer({ id, name, location, contact, timestamp }:
+    { id: string, name: string, location: string, contact: string, timestamp: Date }) {
+    const manufacturer = await this.prisma.manufacturer.create({
+      data: { id, timestamp, contact, location, name }
+    })
+    console.log(`🎉 Manufacturer Created`, manufacturer); //DELETEME:
+  }
+
+  private async createProduct({ manufacturer, name, productId, timestamp }:
+    { manufacturer: string, name: string, productId: string, timestamp: Date }) {
+    const product = await this.prisma.product.create({
+      data: {
+        id: productId, name, timestamp, manufacturer: {
+          connect: {
+            id: manufacturer,
+          }
+        }
+      }
+    })
+    console.log(`🙃 Product created`, product); //DELETEME:
   }
 }

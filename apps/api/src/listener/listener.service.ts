@@ -35,18 +35,39 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy {
 
   subscribeToEvents() {
     try {
-      this.contract.on(this.contract.filters.ManufacturerRegistered, async (manufacturer, name, location, contact, event) => {
+      this.contract.on(this.contract.filters.ManufacturerRegistered, async (id, name, location, contact, event) => {
         // @ts-expect-error get blockNumber from event
         const blockNumber = event.log.blockNumber
         const timestamp = await this.getBlockTimeStamp(blockNumber)
 
-        await this.prisma.manufacturer.create({ data: { contact, id: manufacturer, location, name, timestamp } })
+        const newManufacturer = await this.prisma.manufacturer.create({ data: { contact, id, location, name, timestamp } })
+        console.log(`🪞 Manufacturer created:`, newManufacturer); //DELETEME:
       },
       )
       console.log(`🪫  Event: ManufacturerRegistered Listening...`);
       // this.contract.on(this.contract.filters.ProductItemsAdded, (manufacturer, name) => { })
     } catch (error) {
       console.log(`🎤 Event: ProductCreate: Listener setup failed`, error);
+    }
+
+    try {
+      this.contract.on(
+        this.contract.filters.ProductCreated,
+        async (id, name, manufacturerId, event) => {
+          // @ts-expect-error get blockNumber from event
+          const blockNumber = event.log.blockNumber
+          const timestamp = await this.getBlockTimeStamp(blockNumber)
+
+          const newProduct = await this.prisma.product.create({
+            data: { id: id.toString(), name, timestamp, manufacturerId }
+          });
+
+          console.log(`🧧 Product created`, newProduct); //DELETEME:
+        }
+      )
+      console.log(`🌀  Event: ProductCrated Listening...`);
+    } catch (error) {
+      console.error('Event: ProductCreated: Listener setup failed.', error);
     }
 
   }

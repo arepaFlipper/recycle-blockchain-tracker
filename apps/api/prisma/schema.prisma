@@ -26,6 +26,8 @@ model Product {
   id        String   @unique
   timestamp DateTime
 
+  name String
+
   manufacturer   Manufacturer? @relation(fields: [manufacturerId], references: [id])
   manufacturerId String?
 
@@ -62,10 +64,10 @@ enum ProductStatus {
 }
 
 model Transaction {
-    id Int @id @default(autoincrement())
-    timestamp DateTime
+  id        Int      @id @default(autoincrement())
+  timestamp DateTime
 
-    productItemId String
-    productItem ProductItem @relation(fields: [productItemId], references: [id])
-    status ProductStatus
-  }
+  productItemId String
+  productItem   ProductItem   @relation(fields: [productItemId], references: [id])
+  status        ProductStatus
+}

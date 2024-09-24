@@ -3,6 +3,14 @@ import { ethers } from 'ethers';
 import { RecycleChain__factory, RecycleChain } from '../../../../standalone/recycle-chain-contract/typechain-types';
 import { contractAddress } from 'src/common/prisma/utils';
 import { PrismaService } from 'src/common/prisma/prisma.service';
+import { ProductStatus } from '@prisma/client';
+
+const statusMapping = [
+  ProductStatus.MANUFACTURED,
+  ProductStatus.SOLD,
+  ProductStatus.RETURNED,
+  ProductStatus.RECYCLED,
+]
 
 @Injectable()
 export class ListenerService implements OnModuleInit, OnModuleDestroy {
@@ -58,13 +66,53 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy {
           const blockNumber = event.log.blockNumber
           const timestamp = await this.getBlockTimeStamp(blockNumber)
 
-          const newProduct = await this.createProduct({ manufacturer, name, productId: productId.toString(), timestamp })
-          console.log(`🧧 Product created`, newProduct);
+          await this.createProduct({ manufacturer, name, productId: productId.toString(), timestamp })
         }
       )
       console.log(`🌀  Event: ProductCrated Listening...`);
     } catch (error) {
       console.error('Event: ProductCreated: Listener setup failed.', error);
+    }
+
+    try {
+      this.contract.on(
+        this.contract.filters.ProductItemsStatusChanged,
+        async (productItemIds, statusIndex, event) => {
+          // @ts-expect-error: get blockNumber in log
+          const timestamp = await this.getBlockTimeStamp(event.log.blockNumber);
+
+          const items = await this.updateProductItemStatus({
+            productItemIds,
+            statusIndex: (+statusIndex.toString()),
+            timestamp,
+          });
+
+          console.log('items updated', items);
+
+        }
+      )
+      console.log(`🦦  Event: Product item status change Listening...`);
+    } catch (error) {
+      console.error('Event: Product item status change: Listener setup failed.', error);
+    }
+
+    try {
+      this.contract.on(
+        this.contract.filters.ProductItemsAdded,
+        async (productItemIds, productId, event) => {
+          // @ts-expect-error The blockNumber is got from log
+          const timestamp = await this.getBlockTimeStamp(event.log.blockNumber);
+
+          const items = await this.createProductItems({
+            productId: productId.toString(),
+            productItemIds,
+            timestamp,
+          });
+          console.log(`📈items`, items); //DELETEME:
+        }
+      )
+    } catch (error) {
+
     }
 
   }
@@ -100,6 +148,43 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy {
         }
       }
     })
-    console.log(`🙃 Product created`, product); //DELETEME:
+    console.log(`🧧 Product created`, product);
+  }
+
+  private createProductItems({ productId, productItemIds, timestamp }:
+    { productItemIds: string[], productId: string, timestamp: Date }) {
+    const transactions = productItemIds.map((productItemId) => {
+      return this.prisma.transaction.create({
+        data: {
+          status: ProductStatus.MANUFACTURED,
+          productItemId,
+          timestamp,
+        }
+      })
+    });
+
+    const productItemUpdates = this.prisma.productItem.createMany({
+      data: productItemIds.map((id) => {
+        return { id, productId: productId.toString(), status: ProductStatus.MANUFACTURED, timestamp }
+      }),
+    });
+    return this.prisma.$transaction([productItemUpdates, ...transactions])
+  }
+
+  private updateProductItemStatus({ statusIndex, productItemIds, timestamp }:
+    { statusIndex: number, productItemIds: string[], timestamp: Date }) {
+    const status = statusMapping[+statusIndex.toString()] as ProductStatus;
+    const transactions = productItemIds.map((productItemId) => {
+      return this.prisma.transaction.create({
+        data: { status, productItemId, timestamp }
+      });
+    });
+
+    const productItemUpdates = this.prisma.productItem.updateMany({
+      data: { status, timestamp },
+      where: { id: { in: productItemIds } }
+    });
+
+    return this.prisma.$transaction([productItemUpdates, ...transactions]);
   }
 }

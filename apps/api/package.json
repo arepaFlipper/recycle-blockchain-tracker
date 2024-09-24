@@ -18,6 +18,7 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "codegen": "npx nestjs-prisma-codegen --complete",
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
@@ -26,6 +27,7 @@
     "@nestjs/platform-express": "^10.0.0",
     "@prisma/client": "^5.19.1",
     "ethers": "^6.13.2",
+    "nestjs-prisma-codegen": "^3.2.0",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1"
   },

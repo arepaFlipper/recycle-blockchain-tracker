@@ -9,3 +9,10 @@ dist
 .nx/cache
 .nx/workspace-data
 standalone/simple-counter/ignition/deployments/
+standalone/recycle-chain-contract/ignition/deployments/chain-80002/artifacts
+standalone/recycle-chain-contract/ignition/deployments/chain-80002/build-info
+standalone/recycle-chain-contract/ignition/deployments/chain-80002/deployed_addresses.json
+standalone/recycle-chain-contract/ignition/deployments/chain-80002/journal.jsonl
+apps/api/server/package-lock.json
+apps/api/prisma/migrations
+apps/api/package-lock.json

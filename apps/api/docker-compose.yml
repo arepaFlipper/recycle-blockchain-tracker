@@ -13,9 +13,9 @@ services:
       - db_data_recycle_chain_workshop:/var/lib/postgresql/data
   app:
     image: node:latest
-    working_dir: /app
+    working_dir: /app/apps/api
     volumes:
-      - .:/app
+      - ../..:/app
     command: sh -c "npm install && yarn prisma studio"
     environment:
       DATABASE_URL: "postgresql://postgres:postgres@db:5432/postgres"

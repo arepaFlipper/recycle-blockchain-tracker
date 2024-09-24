@@ -36,7 +36,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy {
   subscribeToEvents() {
     try {
       this.contract.on(this.contract.filters.ManufacturerRegistered, async (manufacturer, name, location, contact, event) => {
-        // @ts-expect-error: re-declare event
+        // @ts-expect-error get blockNumber from event
         const blockNumber = event.log.blockNumber
         const timestamp = await this.getBlockTimeStamp(blockNumber)
 

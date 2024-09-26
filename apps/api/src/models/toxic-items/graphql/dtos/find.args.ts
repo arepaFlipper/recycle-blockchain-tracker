@@ -10,7 +10,11 @@ registerEnumType(Prisma.ToxicItemScalarFieldEnum, {
 
 @ArgsType()
 class FindManyToxicItemArgsStrict
-  implements RestrictProperties<FindManyToxicItemArgsStrict, Omit<Prisma.ToxicItemFindManyArgs, 'include' | 'select'>>
+  implements
+    RestrictProperties<
+      FindManyToxicItemArgsStrict,
+      Omit<Prisma.ToxicItemFindManyArgs, 'include' | 'select'>
+    >
 {
   where: ToxicItemWhereInput
   orderBy: ToxicItemOrderByWithRelationInput[]

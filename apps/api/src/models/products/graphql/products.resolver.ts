@@ -12,7 +12,7 @@ export class ProductsResolver {
   constructor(
     private readonly productsService: ProductsService,
     private readonly prisma: PrismaService,
-  ) { }
+  ) {}
 
   @Query(() => [Product], { name: 'products' })
   findAll(@Args() args: FindManyProductArgs) {

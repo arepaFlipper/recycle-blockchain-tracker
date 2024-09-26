@@ -9,7 +9,7 @@ import { ManufacturerEntity } from './entity/manufacturer.entity'
 @ApiTags('manufacturers')
 @Controller('manufacturers')
 export class ManufacturersController {
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService) {}
 
   @ApiOkResponse({ type: [ManufacturerEntity] })
   @Get()

@@ -10,7 +10,11 @@ registerEnumType(Prisma.ProductScalarFieldEnum, {
 
 @ArgsType()
 class FindManyProductArgsStrict
-  implements RestrictProperties<FindManyProductArgsStrict, Omit<Prisma.ProductFindManyArgs, 'include' | 'select'>>
+  implements
+    RestrictProperties<
+      FindManyProductArgsStrict,
+      Omit<Prisma.ProductFindManyArgs, 'include' | 'select'>
+    >
 {
   where: ProductWhereInput
   orderBy: ProductOrderByWithRelationInput[]

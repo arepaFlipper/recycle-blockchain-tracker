@@ -1,7 +1,10 @@
 import { ArgsType, Field, registerEnumType, PartialType } from '@nestjs/graphql'
 import { Prisma } from '@prisma/client'
 import { ProductItemOrderByWithRelationInput } from './order-by.args'
-import { ProductItemWhereInput, ProductItemWhereUniqueInput } from './where.args'
+import {
+  ProductItemWhereInput,
+  ProductItemWhereUniqueInput,
+} from './where.args'
 import { RestrictProperties } from 'src/common/dtos/common.input'
 
 registerEnumType(Prisma.ProductItemScalarFieldEnum, {
@@ -10,7 +13,11 @@ registerEnumType(Prisma.ProductItemScalarFieldEnum, {
 
 @ArgsType()
 class FindManyProductItemArgsStrict
-  implements RestrictProperties<FindManyProductItemArgsStrict, Omit<Prisma.ProductItemFindManyArgs, 'include' | 'select'>>
+  implements
+    RestrictProperties<
+      FindManyProductItemArgsStrict,
+      Omit<Prisma.ProductItemFindManyArgs, 'include' | 'select'>
+    >
 {
   where: ProductItemWhereInput
   orderBy: ProductItemOrderByWithRelationInput[]

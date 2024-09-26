@@ -1,6 +1,12 @@
-import { Field, InputType, PartialType } from '@nestjs/graphql'
+import { InputType, PartialType } from '@nestjs/graphql'
 import { Prisma } from '@prisma/client'
-import { RestrictProperties } from 'src/common/dtos/common.input'
+import {
+  DateTimeFilter,
+  IntFilter,
+  RestrictProperties,
+  StringFilter,
+} from 'src/common/dtos/common.input'
+import { ProductRelationFilter } from 'src/models/products/graphql/dtos/where.args'
 
 @InputType()
 export class ToxicItemWhereUniqueInput {
@@ -8,9 +14,16 @@ export class ToxicItemWhereUniqueInput {
 }
 
 @InputType()
-export class ToxicItemWhereInputStrict implements RestrictProperties<ToxicItemWhereInputStrict, Prisma.ToxicItemWhereInput> {
-  // Todo: Add the below field decorator only to the $Enums types.
-  // @Field(() => $Enums.x)
+export class ToxicItemWhereInputStrict
+  implements
+    RestrictProperties<ToxicItemWhereInputStrict, Prisma.ToxicItemWhereInput>
+{
+  timestamp: DateTimeFilter
+  id: IntFilter
+  name: StringFilter
+  weight: IntFilter
+  productId: StringFilter
+  Product: ProductRelationFilter
 
   AND: ToxicItemWhereInput[]
   OR: ToxicItemWhereInput[]

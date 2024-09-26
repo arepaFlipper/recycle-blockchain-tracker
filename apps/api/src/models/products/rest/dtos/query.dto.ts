@@ -11,4 +11,3 @@ export class ProductQueryDto extends BaseQueryDto {
   @IsIn(Object.values(Prisma.ProductScalarFieldEnum))
   searchBy?: string
 }
-

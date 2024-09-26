@@ -11,4 +11,3 @@ export class ToxicItemQueryDto extends BaseQueryDto {
   @IsIn(Object.values(Prisma.ToxicItemScalarFieldEnum))
   searchBy?: string
 }
-

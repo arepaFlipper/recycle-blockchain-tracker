@@ -11,4 +11,3 @@ export class TransactionQueryDto extends BaseQueryDto {
   @IsIn(Object.values(Prisma.TransactionScalarFieldEnum))
   searchBy?: string
 }
-

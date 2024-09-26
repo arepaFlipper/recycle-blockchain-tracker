@@ -1,8 +1,14 @@
-import { ProductItem } from '@prisma/client'
-import { IsDate, IsString, IsInt } from 'class-validator'
+import { registerEnumType } from '@nestjs/graphql'
+import { $Enums, ProductItem } from '@prisma/client'
 import { RestrictProperties } from 'src/common/dtos/common.input'
 
-export class ProductItemEntity implements RestrictProperties<ProductItemEntity, ProductItem> {
+registerEnumType($Enums.ProductStatus, { name: 'ProductStatus' })
 
+export class ProductItemEntity
+  implements RestrictProperties<ProductItemEntity, ProductItem>
+{
+  id: string
+  timestamp: Date
+  productId: string
+  status: $Enums.ProductStatus
 }
-

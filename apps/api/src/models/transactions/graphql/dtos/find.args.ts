@@ -1,7 +1,10 @@
 import { ArgsType, Field, registerEnumType, PartialType } from '@nestjs/graphql'
 import { Prisma } from '@prisma/client'
 import { TransactionOrderByWithRelationInput } from './order-by.args'
-import { TransactionWhereInput, TransactionWhereUniqueInput } from './where.args'
+import {
+  TransactionWhereInput,
+  TransactionWhereUniqueInput,
+} from './where.args'
 import { RestrictProperties } from 'src/common/dtos/common.input'
 
 registerEnumType(Prisma.TransactionScalarFieldEnum, {
@@ -10,7 +13,11 @@ registerEnumType(Prisma.TransactionScalarFieldEnum, {
 
 @ArgsType()
 class FindManyTransactionArgsStrict
-  implements RestrictProperties<FindManyTransactionArgsStrict, Omit<Prisma.TransactionFindManyArgs, 'include' | 'select'>>
+  implements
+    RestrictProperties<
+      FindManyTransactionArgsStrict,
+      Omit<Prisma.TransactionFindManyArgs, 'include' | 'select'>
+    >
 {
   where: TransactionWhereInput
   orderBy: TransactionOrderByWithRelationInput[]

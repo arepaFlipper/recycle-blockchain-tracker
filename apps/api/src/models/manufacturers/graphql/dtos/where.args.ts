@@ -1,14 +1,31 @@
-import { Field, InputType, PartialType } from '@nestjs/graphql'
+import { InputType, PartialType } from '@nestjs/graphql'
 import { Prisma } from '@prisma/client'
-import { RestrictProperties } from 'src/common/dtos/common.input'
+import {
+  DateTimeFilter,
+  RestrictProperties,
+  StringFilter,
+} from 'src/common/dtos/common.input'
+import { ProductListRelationFilter } from 'src/models/products/graphql/dtos/where.args'
 
 @InputType()
 export class ManufacturerWhereUniqueInput {
-  id: number
+  id: string
 }
 
 @InputType()
-export class ManufacturerWhereInputStrict implements RestrictProperties<ManufacturerWhereInputStrict, Prisma.ManufacturerWhereInput> {
+export class ManufacturerWhereInputStrict
+  implements
+    RestrictProperties<
+      ManufacturerWhereInputStrict,
+      Prisma.ManufacturerWhereInput
+    >
+{
+  id: StringFilter
+  timestamp: DateTimeFilter
+  name: StringFilter
+  location: StringFilter
+  contact: StringFilter
+  products: ProductListRelationFilter
   // Todo: Add the below field decorator only to the $Enums types.
   // @Field(() => $Enums.x)
 

@@ -12,7 +12,7 @@ export class ProductsResolver {
   constructor(
     private readonly productsService: ProductsService,
     private readonly prisma: PrismaService,
-  ) {}
+  ) { }
 
   @Query(() => [Product], { name: 'products' })
   findAll(@Args() args: FindManyProductArgs) {
@@ -22,6 +22,11 @@ export class ProductsResolver {
   @Query(() => Product, { name: 'product' })
   findOne(@Args() args: FindUniqueProductArgs) {
     return this.productsService.findOne(args)
+  }
+
+  @ResolveField(() => Manufacturer)
+  manufacturer(@Parent() product) {
+    return this.prisma.manufacturer.findUnique({ where: { id: product.manufacturerId } })
   }
 
 }

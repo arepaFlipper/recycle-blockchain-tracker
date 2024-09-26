@@ -26,7 +26,23 @@ export class ProductsResolver {
 
   @ResolveField(() => Manufacturer)
   manufacturer(@Parent() product) {
-    return this.prisma.manufacturer.findUnique({ where: { id: product.manufacturerId } })
+    return this.prisma.manufacturer.findUnique({
+      where: { id: product.manufacturerId },
+    })
+  }
+
+  @ResolveField(() => [ProductItem])
+  productItems(@Parent() product: Product) {
+    return this.prisma.productItem.findMany({
+      where: { productId: product.id },
+    })
+  }
+
+  @ResolveField(() => [ToxicItem])
+  toxicItems(@Parent() product: Product) {
+    return this.prisma.toxicItem.findMany({
+      where: { productId: product.id },
+    })
   }
 
 }

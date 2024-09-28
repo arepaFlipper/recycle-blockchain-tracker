@@ -45,4 +45,13 @@ export class ProductsResolver {
     })
   }
 
+  @ResolveField(() => Number, {
+    name: 'totalCount'
+  })
+
+  async totalCount(@Parent() parent: Product) {
+    return this.prisma.productItem.count({
+      where: { productId: parent.id },
+    })
+  }
 }

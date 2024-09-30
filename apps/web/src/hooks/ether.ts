@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { RecycleChain } from '../../../../standalone/recycle-chain-contract/typechain-types';
+import { RecycleChain, RecycleChain__factory } from '../../../../standalone/recycle-chain-contract/typechain-types';
 import { ethers } from 'ethers';
+import { contractAddress } from "../../util/contract";
 
 declare global {
   interface Window {
@@ -47,12 +48,49 @@ export const useAccount = () => {
       console.error('User denied account access or failed to add network')
     }
   }
+
+  const fetchBlockchainData = async () => {
+    if (!window?.ethereum) {
+      console.error('Ethereum object not found');
+      return
+    }
+
+    try {
+      const provider = new ethers.BrowserProvider(window.ethereum);
+
+      const signer = await provider.send('eth_requestAccounts', []);
+      const contract = RecycleChain__factory.connect(contractAddress, signer);
+
+      setContract(contract);
+
+      const accounts = await provider.send('eth_requestAccounts', []);
+
+      if (accounts && accounts.length > 0) {
+        const account = accounts[0];
+        setAccount(account);
+        const balance = await provider.getBalance(account);
+
+        setBalance(ethers.formatEther(balance));
+
+        const contractOwner = await contract.owner();
+        setIsOwner(account.toLowerCase() === contractOwner.toLowerCase());
+      } else {
+        console.error('No accounts detected');
+        return
+      }
+    } catch (error) {
+
+    }
+  }
+
   useEffect(() => {
 
     // NOTE: initializeWeb3Provider
 
     initializeWeb3Provider()
     // NOTE: Fetch blockchain information
+    fetchBlockchainData()
   }, [])
   return { account, balance, isOwner, contract }
 }
+

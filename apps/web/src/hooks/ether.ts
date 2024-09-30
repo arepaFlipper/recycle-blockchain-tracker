@@ -29,13 +29,13 @@ export const useAccount = () => {
           params: [{
             chainId: '0x13882', // NOTE: This is the hex rep. of 80002
             chainName: 'Polygon Amoy Testnet',
-            nativeCurrentcy: {
+            nativeCurrency: {
               name: 'MATIC',
               symbol: 'MATIC',
               decimals: 18,
             },
             blockExplorerUrls: ['https://amoy.polygonscan.com/'],
-            rls: [
+            rpcUrls: [
               `https://polygon-amoy.infure.io/v3/${process.env.NEXT_PUBLIC_INFURA_KEY}`,
             ],
           }],

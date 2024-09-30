@@ -36,8 +36,10 @@ export const useAccount = () => {
             },
             blockExplorerUrls: ['https://amoy.polygonscan.com/'],
             rpcUrls: [
-              `https://polygon-amoy.infure.io/v3/${process.env.NEXT_PUBLIC_INFURA_KEY}`,
+              `https://rpc-amoy.polygon.technology/`,
+              // `https://polygon-amoy.infure.io/v3/${process.env.NEXT_PUBLIC_INFURA_KEY}`,
             ],
+            // rpcUrls: [`https://rpc-amoy.polygon.technology/`],
           }],
         }
       );

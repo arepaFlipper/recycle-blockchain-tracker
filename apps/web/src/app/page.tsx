@@ -3,7 +3,7 @@ import { useAccount } from "@/hooks/ether";
 
 const Home = () => {
   const { account, balance, contract, isOwner } = useAccount();
-  return <main>Hello World</main>;
+  return <main>Hello WalletMcCripto</main>;
 }
 
 export default Home;

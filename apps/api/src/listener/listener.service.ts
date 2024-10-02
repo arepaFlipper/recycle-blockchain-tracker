@@ -42,6 +42,11 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy {
   }
 
   subscribeToEvents() {
+
+    if (!this.contract) {
+      throw new Error('Contract is not initialized');
+    }
+
     try {
       this.contract.on(
         this.contract.filters.ManufacturerRegistered,
@@ -132,6 +137,103 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy {
       console.error('Event: Toxic Product create add: Listener setup failed.', error);
     }
 
+  }
+
+  async resyncBlockchainData() {
+    if (!this.contract) {
+      throw new Error('Contract is not initialized');
+    }
+
+    const fromBlock = 0;
+    const toBlock = 'latest';
+
+    // NOTE: 1. Query and handle ManufacturerRegistered events
+    const manufacturerRegisteredEvents = await this.contract.queryFilter(
+      this.contract.filters.ManufacturerRegistered,
+      fromBlock,
+      toBlock
+    );
+
+    for (const event of manufacturerRegisteredEvents) {
+      const [manufacturer, name, location, contact] = event.args;
+      const timestamp = await this.getBlockTimeStamp(event.blockNumber);
+
+      await this.createManufacturer({ contact, id: manufacturer, location, name, timestamp });
+    };
+
+    // NOTE: 2. Query and handle ProductCreated events
+    const productCreatedEvents = await this.contract.queryFilter(
+      this.contract.filters.ProductCreated,
+      fromBlock,
+      toBlock,
+    );
+
+    for (const event of productCreatedEvents) {
+      const [productId, name, manufacturer] = event.args;
+      const timestamp = await this.getBlockTimeStamp(event.blockNumber);
+
+      await this.createProduct({
+        manufacturer,
+        name,
+        productId: productId.toString(),
+        timestamp,
+      });
+    }
+
+    // NOTE: 3. Query and handle ProductItemsAdded events
+    const productItemsAddedEvents = await this.contract.queryFilter(
+      this.contract.filters.ProductItemsAdded,
+      fromBlock,
+      toBlock,
+    )
+
+    for (const event of productItemsAddedEvents) {
+      const [productItemIds, productId] = event.args;
+      const timestamp = await this.getBlockTimeStamp(event.blockNumber);
+
+      await this.createProductItems({
+        productId: productId.toString(),
+        productItemIds,
+        timestamp
+      });
+    }
+
+    // NOTE: 4. Query and handle ProdcutItemsStatusChanged events
+    const productItemsStatusChangedEvents = await this.contract.queryFilter(
+      this.contract.filters.ProductItemsStatusChanged,
+      fromBlock,
+      toBlock,
+    )
+
+    for (const event of productItemsStatusChangedEvents) {
+      const [productItemIds, statusIndex] = event.args;
+      const timestamp = await this.getBlockTimeStamp(event.blockNumber);
+
+      await this.updateProductItemStatus({
+        productItemIds,
+        statusIndex: +statusIndex.toString(),
+        timestamp,
+      })
+    }
+
+    // NOTE: 5. Query and handle ToxicItemCreated events
+    const toxicItemCreatedEvents = await this.contract.queryFilter(
+      this.contract.filters.ToxicItemCreated(),
+      fromBlock,
+      toBlock,
+    )
+
+    for (const event of toxicItemCreatedEvents) {
+      const [productId, name, weight] = event.args;
+      const timestamp = await this.getBlockTimeStamp(event.blockNumber);
+
+      await this.createToxicItem({
+        name,
+        productId: productId.toString(),
+        weight: +weight.toString(),
+        timestamp
+      })
+    }
   }
 
   cleanup() {

@@ -16,3 +16,4 @@ standalone/recycle-chain-contract/ignition/deployments/chain-80002/journal.jsonl
 apps/api/server/package-lock.json
 apps/api/prisma/migrations
 apps/api/package-lock.json
+apps/api/test/env

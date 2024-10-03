@@ -11,6 +11,7 @@ services:
       POSTGRES_PASSWORD: postgres
     volumes:
       - db_data_recycle_chain_workshop:/var/lib/postgresql/data
+
   app:
     image: node:latest
     working_dir: /app/apps/api

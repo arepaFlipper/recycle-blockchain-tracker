@@ -51,7 +51,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy {
       this.contract.on(
         this.contract.filters.ManufacturerRegistered,
         async (id, name, location, contact, event) => {
-          // @ts-expect-error get The blockNumber from log property
+          // @ts-ignore
           const blockNumber = event.log.blockNumber;
           const timestamp = await this.getBlockTimeStamp(blockNumber);
           await this.createManufacturer({ contact, id, location, name, timestamp });
@@ -67,7 +67,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy {
       this.contract.on(
         this.contract.filters.ProductCreated,
         async (productId, name, manufacturer, event) => {
-          // @ts-expect-error get blockNumber from event
+          // @ts-ignore
           const blockNumber = event.log.blockNumber
           const timestamp = await this.getBlockTimeStamp(blockNumber)
 
@@ -83,7 +83,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy {
       this.contract.on(
         this.contract.filters.ProductItemsStatusChanged,
         async (productItemIds, statusIndex, event) => {
-          // @ts-expect-error: get blockNumber in log
+          // @ts-ignore
           const timestamp = await this.getBlockTimeStamp(event.log.blockNumber);
 
           const items = await this.updateProductItemStatus({
@@ -105,7 +105,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy {
       this.contract.on(
         this.contract.filters.ProductItemsAdded,
         async (productItemIds, productId, event) => {
-          // @ts-expect-error The blockNumber is got from log
+          // @ts-ignore
           const timestamp = await this.getBlockTimeStamp(event.log.blockNumber);
 
           const items = await this.createProductItems({
@@ -125,7 +125,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy {
       this.contract.on(
         this.contract.filters.ToxicItemCreated,
         async (productId, name, weight, event) => {
-          // @ts-expect-error The blockNumber is got from event.log
+          // @ts-ignore
           const timestamp = await this.getBlockTimeStamp(event.log.blockNumber);
 
           await this.createToxicItem({ name, productId: productId.toString(), weight: Number(weight.toString()), timestamp })

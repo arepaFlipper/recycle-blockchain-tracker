@@ -17,7 +17,7 @@ import { ResyncModule } from './resync/resync.module';
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: join(process.cwd(), 'src/shcema.gql'),
+      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       introspection: true,
     }),
     PrismaModule,

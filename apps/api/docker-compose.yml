@@ -17,9 +17,9 @@ services:
     working_dir: /app/apps/api
     volumes:
       - ../..:/app
-    command: sh -c "npm install && yarn prisma studio"
-    environment:
-      DATABASE_URL: "postgresql://postgres:postgres@db:5432/postgres"
+    command: sh -c "npm install && yarn dev"
+    env_file:
+      - .env
     ports:
       - "3001:3000"
       - "3002:3002"

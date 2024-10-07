@@ -38,6 +38,8 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy {
     const infuraWssUrl = `wss://polygon-amoy.infura.io/ws/v3/${process.env.INFURA_KEY}`
     this.provider = new ethers.WebSocketProvider(infuraWssUrl)
 
+    console.log(`⚗️%clistener.service.ts:41 - contractAddress`, 'font-weight:bold; background:#897600;color:#fff;'); //DELETEME:
+    console.log(contractAddress); // DELETEME:
     this.contract = RecycleChain__factory.connect(contractAddress, this.provider)
   }
 
@@ -155,6 +157,8 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy {
     );
 
     for (const event of manufacturerRegisteredEvents) {
+      console.log(`🔗%clistener.service.ts:160 - event`, 'font-weight:bold; background:#d42b00;color:#fff;'); //DELETEME:
+      console.log(event); // DELETEME:
       const [manufacturer, name, location, contact] = event.args;
       const timestamp = await this.getBlockTimeStamp(event.blockNumber);
 

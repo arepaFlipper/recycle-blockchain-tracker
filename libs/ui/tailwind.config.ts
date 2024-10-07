@@ -10,12 +10,8 @@ const config: Config = {
   theme: {
     colors: colorsConfig,
     extend: {
-      colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
-      },
       borderRadius: {
-        DEFAULT: '1rem',
+        DEFAULT: '12px',
       }
     },
   },

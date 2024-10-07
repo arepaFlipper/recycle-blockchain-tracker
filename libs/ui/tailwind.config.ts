@@ -1,3 +1,4 @@
+import { colorsConfig } from "@/styles/config";
 import type { Config } from "tailwindcss";
 
 const config: Config = {
@@ -7,11 +8,15 @@ const config: Config = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    colors: colorsConfig,
     extend: {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      borderRadius: {
+        DEFAULT: '1rem',
+      }
     },
   },
   plugins: [],

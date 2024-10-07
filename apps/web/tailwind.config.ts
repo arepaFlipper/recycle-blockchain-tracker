@@ -7,7 +7,7 @@ const config: Config = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     "../../libs/ui/**/*.{js,ts,jsx,tsx,mdx}",
   ],
-  // presets: [require('../../libs/ui/tailwind.config.js')],
+  presets: [require('../../libs/ui/tailwind.config.js')],
   theme: {
     extend: {
       colors: {

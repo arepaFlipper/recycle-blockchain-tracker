@@ -1,4 +1,4 @@
-import { colorsConfig } from "@/styles/config";
+import { colorsConfig } from "./src/styles/config";
 import type { Config } from "tailwindcss";
 
 const config: Config = {

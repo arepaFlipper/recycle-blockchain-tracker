@@ -10,6 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@recycle-chain/ui": "*",
     "@recycle-chain/network": "*",
     "ethers": "^6.13.0",
     "react": "^18",

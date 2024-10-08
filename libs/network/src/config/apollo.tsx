@@ -7,8 +7,11 @@ export interface IApolloProviderProps {
 }
 
 export const ApolloProvider = ({ children }: IApolloProviderProps) => {
+  const uri = process.env.NEXT_PUBLIC_API_URL + '/graphql';
+  console.log(`🔜%capollo.tsx:11 - uri`, 'font-weight:bold; background:#38c700;color:#fff;'); //DELETEME:
+  console.log(uri); // DELETEME:
   const apolloClient = new ApolloClient({
-    uri: process.env.NEXT_PUBLIC_API_URL + '/graphql',
+    uri,
     cache: new InMemoryCache(),
   })
 

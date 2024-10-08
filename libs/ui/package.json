@@ -9,8 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@recycle-chain/util": "*",
     "@headlessui/react": "^2.1.9",
+    "@react-spring/web": "^9.7.5",
+    "@recycle-chain/util": "*",
     "@tabler/icons-react": "^3.19.0",
     "next": "14.2.14",
     "react": "^18",

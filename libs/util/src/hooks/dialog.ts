@@ -1,17 +1,18 @@
-import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from 'react';
+import { usePathname } from 'next/navigation'
+import { useEffect, useRef, useState } from 'react'
 
-export const useDealogState = (defaultState = false) => {
-  const [open, setOpen] = useState(defaultState);
+export const useDialogState = (defaultState = false) => {
+  const [open, setOpen] = useState(defaultState)
 
-  const path_name = usePathname();
-  const initial_pathname = useRef(path_name);
+  const pathname = usePathname()
+  const initialPathname = useRef(pathname)
 
   useEffect(() => {
-    if (path_name !== initial_pathname.current) {
-      setOpen(false);
-      initial_pathname.current = path_name;
+    if (pathname !== initialPathname.current) {
+      setOpen(false)
+      initialPathname.current = pathname
     }
-  }, [path_name, open]);
-  return [open, setOpen] as const;
+  }, [pathname, open])
+
+  return [open, setOpen] as const
 }

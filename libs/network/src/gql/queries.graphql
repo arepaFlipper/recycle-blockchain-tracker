@@ -10,16 +10,24 @@ fragment ManufacturerFields on Manufacturer {
   name
   location
   contact
+  timestamp
+
 }
 
-query ExampleQuery($skip: Float,
-  $take: Float,
-  $cursor: ManufacturerWhereUniqueInput,
-  $orderBy: [ManufacturerOrderByWithRelationInput!],
-  $where: ManufacturerWhereInput,
-  $distinct: [ManufacturerScalarFieldEnum!]
+query Manufacturers(
+  $skip: Float
+  $take: Float
+  $cursor: ManufacturerWhereUniqueInput
+  $orderBy: [ManufacturerOrderByWithRelationInput!]
+  $where: ManufacturerWhereInput
 ) {
-  manufacturers(skip: $skip, take: $take, cursor: $cursor, orderBy: $orderBy, where: $where, distinct: $distinct) {
+  manufacturers(
+    skip: $skip
+    take: $take
+    cursor: $cursor
+    orderBy: $orderBy
+    where: $where
+  ) {
     ...ManufacturerFields
   }
 }
@@ -29,4 +37,3 @@ query Manufacturer($where: ManufacturerWhereUniqueInput!) {
     ...ManufacturerFields
   }
 }
-

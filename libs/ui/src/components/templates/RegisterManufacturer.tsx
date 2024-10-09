@@ -8,6 +8,10 @@ import { HtmlLabel } from '../atoms/HtmlLabel';
 import { HtmlInput } from '../atoms/HtmlInput';
 import { Button } from '../atoms/Button';
 import { PageTitle } from '../atoms/PageTitle';
+import { registerManufacturer } from '@recycle-chain/util/src/actions/registerManufacturer';
+import { useRouter } from 'next/navigation';
+import { useApolloClient } from '@apollo/client';
+import { namedOperations } from '@recycle-chain/network/src/gql/generated';
 
 type FormData = {
   name: string;
@@ -16,14 +20,30 @@ type FormData = {
 };
 
 export const RegisterManufacturer = () => {
-  // If useFormRegisterManufacturer is from react-hook-form, ensure it's typed with FormData
+  // NOTE: If useFormRegisterManufacturer is from react-hook-form, ensure it's typed with FormData
   const { register, handleSubmit, reset, formState: { errors } } = useForm<FormData>();
   const { contract, account } = useAccount();
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
+  const client = useApolloClient();
 
-  const submitHandler: SubmitHandler<FormData> = (data) => {
-    console.log(`🔔%cRegisterManufacturer.tsx:18 - data`, 'font-weight:bold; background:#53ac00;color:#fff;'); // DELETEME
-    console.log(data); // DELETEME
+  const submitHandler: SubmitHandler<FormData> = async ({ contact, location, name }) => {
+    if (!contract) {
+      console.error('Contract not found');
+      return;
+    }
+    setLoading(true);
+    const success = await registerManufacturer({ contract, payload: { contact, location, name } });
+    setLoading(false);
+
+    if (success) {
+      reset();
+      router.replace(`/manufacturers/${account}`);
+      client.refetchQueries({ include: [namedOperations.Query.Manufacturer] })
+    } else {
+
+      alert('Failed to register manufacturer');
+    }
   };
 
   return (

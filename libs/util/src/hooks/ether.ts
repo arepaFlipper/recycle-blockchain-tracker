@@ -56,6 +56,8 @@ export const useAccount = () => {
 
       const signer = await provider.getSigner()
       const contract = RecycleChain__factory.connect(contractAddress, signer)
+      console.log(`👒 %cether.ts:59 - contract`, 'font-weight:bold; background:#a15e00;color:#fff;'); //DELETEME:
+      console.log(contract); // DELETEME:
       setContract(contract)
 
       const accounts = await provider.send('eth_requestAccounts', [])

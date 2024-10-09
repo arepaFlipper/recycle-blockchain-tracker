@@ -1,5 +1,6 @@
 import { ReactNode, ElementType } from "react";
 import { Icon as IconType } from "@tabler/icons-react";
+import { RecycleChain } from "../../../standalone/recycle-chain-contract/typechain-types";
 
 export type MenuItem = {
   label: string;
@@ -10,4 +11,9 @@ export type MenuItem = {
 export type BaseComponent = {
   children?: ReactNode;
   className?: string;
+}
+
+export type ActionType<T = string> = {
+  contract: RecycleChain;
+  payload: T;
 }

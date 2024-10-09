@@ -13,8 +13,8 @@ declare global {
 export const useAccount = () => {
   const [account, setAccount] = useState('')
   const [balance, setBalance] = useState('')
-  const [isOwner, setIsOwner] = useState(false)
   const [contract, setContract] = useState<RecycleChain | null>(null)
+  const [isOwner, setIsOwner] = useState(false)
 
   const initializeWeb3Provider = async () => {
     if (!window?.ethereum) {
@@ -30,6 +30,7 @@ export const useAccount = () => {
         params: [
           {
             chainId: '0x13882',
+            chainName: 'Polygon Testnet',
             nativeCurrency: {
               name: 'MATIC',
               symbol: 'MATIC',

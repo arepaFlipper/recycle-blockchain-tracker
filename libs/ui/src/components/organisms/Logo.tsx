@@ -6,7 +6,7 @@ export const Logo = () => {
     <div className="relative flex items-center gap-2">
       <PlantIcon />
 
-      <div className="z-10 text-xl font-semibold ">
+      <div className="z-10 text-black text-xl font-semibold ">
         <div>Recycle Chain</div>
         <div className="text-xs text-gray">Karthick Ragavendran</div>
       </div>

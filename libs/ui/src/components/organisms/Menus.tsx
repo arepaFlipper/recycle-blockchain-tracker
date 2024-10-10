@@ -14,7 +14,7 @@ export const Menus = ({ menuItems }: IMenuItemProps) => {
           key={label}
           href={href}
         >
-          <div className="flex gap-1 items-center font-medium text-lg">
+          <div className="flex gap-1 items-center font-medium text-lg text-black">
             <Icon /> {label}
           </div>
         </Link>

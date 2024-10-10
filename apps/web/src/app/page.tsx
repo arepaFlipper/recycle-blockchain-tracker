@@ -1,4 +1,6 @@
 'use client'
+
+import CustomDonutChart from "@recycle-chain/ui/src/components/organisms/CustomDonutChart"
 import { useAccount } from "@/hooks/ether";
 import { useQuery } from "@apollo/client";
 import { ProductsDocument } from "@recycle-chain/network/src/gql/generated";
@@ -10,8 +12,15 @@ const Home = () => {
   const { data, loading } = useQuery(ProductsDocument);
   console.log(`🪅%cpage.tsx:9 - data`, 'font-weight:bold; background:#2fd000;color:#fff;'); //DELETEME:
   console.log(data); // DELETEME:
+  const sample_data = [
+    { label: 'MANUFACTURED', value: 19, color: 'hsl(142,2%,75%)' },
+    { label: 'SOLD', value: 23, color: 'hsl(142,2%,36%)' },
+    { label: 'RETURNED', value: 22, color: 'hsl(142,76%,75%)' },
+    { label: 'RECYCLED', value: 121, color: 'hsl(142,76%,36%)' },
+  ]
   return (
     <main>
+      <CustomDonutChart data={sample_data} />
       <div>Account: {account}</div>
       <div>Balance: {balance}</div>
       <div>Is it Owner: {String(isOwner)}</div>

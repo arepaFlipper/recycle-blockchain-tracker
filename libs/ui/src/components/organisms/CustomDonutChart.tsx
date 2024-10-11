@@ -43,16 +43,37 @@ const CustomDonutChart = ({ data }: IDonutChartProps) => {
   console.log('arcGenerator ', arcGenerator)
 
   return (
-    <div>
-      <svg>
-        <g>
+    <div className="relative">
+      <svg viewBox={`${-strokeWidth / 2} ${-strokeWidth / 2} ${diameter + strokeWidth} ${diameter - 25}`}>
+        <g transform={`translate(${radius}, ${radius})`}>
           {arcs.map((arc => {
+            const hovered = arc.data.label === hoveredValue?.label
             return (
-              <path key={arc.data.label} fill={arc.data.color} d={arcGenerator(arc) || undefined} />
+              <path
+                key={arc.data.label}
+                fill={arc.data.color}
+                d={arcGenerator(arc) as string}
+                onMouseOver={() => setHoveredValue(arc.data)}
+                onMouseOut={() => setHoveredValue(null)}
+                stroke={hovered ? 'white' : 'none'}
+                strokeWidth={hovered ? strokeWidth : 0}
+              />
             )
           }))}
         </g>
       </svg>
+      <div className="mb-2 absolute bottom-0 w-36 left-1/2 -translate-x-1/2">
+        {(hoveredValue) ? (
+          <div className="flex flex-col items-center">
+            <div className="text-5xl">{hoveredValue.value}</div>
+            {hoveredValue.label}
+          </div>
+        ) : (
+          <div className="text-center text-sm text-gray">
+            Hover over the arcs.
+          </div>
+        )}
+      </div>
     </div>
   )
 }

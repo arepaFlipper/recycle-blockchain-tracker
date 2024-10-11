@@ -31,7 +31,7 @@ const CustomDonutChart = ({ data }: IDonutChartProps) => {
 
   const diameter = 100
   const radius = diameter / 2
-  const inner_radiusFactor = 0.6
+  const inner_radiusFactor = 0.9
   const inner_radius = radius * inner_radiusFactor
   const strokeWidth = 0.5
 
@@ -45,6 +45,9 @@ const CustomDonutChart = ({ data }: IDonutChartProps) => {
   return (
     <div className="relative">
       <svg viewBox={`${-strokeWidth / 2} ${-strokeWidth / 2} ${diameter + strokeWidth} ${diameter - 25}`}>
+        <filter id="shadow" height={'200%'} width={'200%'}>
+          <feDropShadow dx={0} dy={4} stdDeviation={'.2'} floodColor={"#000"} floodOpacity={'.2'} />
+        </filter>
         <g transform={`translate(${radius}, ${radius})`}>
           {arcs.map((arc => {
             const hovered = arc.data.label === hoveredValue?.label
@@ -57,6 +60,7 @@ const CustomDonutChart = ({ data }: IDonutChartProps) => {
                 onMouseOut={() => setHoveredValue(null)}
                 stroke={hovered ? 'white' : 'none'}
                 strokeWidth={hovered ? strokeWidth : 0}
+                filter={hovered ? 'url(#shadow)' : 'none'}
               />
             )
           }))}

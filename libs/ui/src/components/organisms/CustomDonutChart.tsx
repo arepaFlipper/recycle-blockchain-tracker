@@ -51,6 +51,8 @@ const CustomDonutChart = ({ data }: IDonutChartProps) => {
         <g transform={`translate(${radius}, ${radius})`}>
           {arcs.map((arc => {
             const hovered = arc.data.label === hoveredValue?.label
+            console.log(`🗞️ %cCustomDonutChart.tsx:54 - arc.data.color`, 'font-weight:bold; background:#9b6400;color:#fff;'); //DELETEME:
+            console.log(arc.data.color); // DELETEME:
             return (
               <path
                 key={arc.data.label}
@@ -68,7 +70,7 @@ const CustomDonutChart = ({ data }: IDonutChartProps) => {
       </svg>
       <div className="mb-2 absolute bottom-0 w-36 left-1/2 -translate-x-1/2">
         {(hoveredValue) ? (
-          <div className="flex flex-col items-center text-black">
+          <div className="flex flex-col items-center" style={{ color: hoveredValue.color }}>
             <div className="text-5xl">{hoveredValue.value}</div>
             {hoveredValue.label}
           </div>

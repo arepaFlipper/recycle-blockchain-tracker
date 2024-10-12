@@ -12,6 +12,11 @@ fragment ManufacturerFields on Manufacturer {
   contact
   timestamp
 
+  totalCount
+  soldCount
+  returnedCount
+  recycledCount
+  productsCount
 }
 
 query Manufacturers(
@@ -28,8 +33,10 @@ query Manufacturers(
     orderBy: $orderBy
     where: $where
   ) {
-    ...ManufacturerFields
+    ...ManufacturerFields,
+    # totalCount(where: $where)
   }
+  # manufacturersCount(where: $where)
 }
 
 query Manufacturer($where: ManufacturerWhereUniqueInput!) {

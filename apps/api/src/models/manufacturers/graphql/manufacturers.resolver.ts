@@ -7,6 +7,8 @@ import {
 } from './dtos/find.args'
 import { PrismaService } from 'src/common/prisma/prisma.service'
 import { Product } from 'src/models/products/graphql/entity/product.entity'
+import { ManufacturerWhereInput } from './dtos/where.args'
+import { Prisma, ProductStatus } from '@prisma/client'
 
 @Resolver(() => Manufacturer)
 export class ManufacturersResolver {
@@ -31,4 +33,64 @@ export class ManufacturersResolver {
       where: { manufacturerId: manufacturer.id }
     })
   }
+
+  @Query(() => Number, { name: 'manufacturersCount' })
+  async manufacturersCount(
+    @Args('where', { nullable: true })
+    where: ManufacturerWhereInput,
+    @Args('distinct', { type: () => [Prisma.ManufacturerScalarFieldEnum] })
+    distinct: Prisma.ManufacturerScalarFieldEnum[],
+  ) {
+    return this.prisma.manufacturer.count({ where });
+  }
+
+  @ResolveField(() => Number, { name: 'totalCount' })
+  async totalCount(@Parent() manufacturer: Manufacturer) {
+    return this.prisma.productItem.count({
+      where: {
+        product: { manufacturerId: manufacturer.id },
+      }
+    })
+  }
+
+  @ResolveField(() => Number, { name: 'soldCount' })
+  async soldCount(@Parent() manufacturer: Manufacturer) {
+    return this.prisma.productItem.count({
+      where: {
+        status: ProductStatus.SOLD,
+        product: { manufacturerId: manufacturer.id }
+      }
+    })
+  }
+
+
+  @ResolveField(() => Number, { name: 'returnedCount' })
+  async returnedCount(@Parent() manufacturer: Manufacturer) {
+    return this.prisma.productItem.count({
+      where: {
+        status: ProductStatus.RETURNED,
+        product: { manufacturerId: manufacturer.id },
+      }
+    })
+  }
+
+  @ResolveField(() => Number, { name: 'recycledCount' })
+  async recycledCount(@Parent() manufacturer: Manufacturer) {
+    return this.prisma.productItem.count({
+      where: {
+        status: ProductStatus.RECYCLED,
+        product: { manufacturerId: manufacturer.id },
+      }
+    })
+  }
+
+  @ResolveField(() => Number, { name: 'productsCount' })
+  async productsCount(@Parent() manufacturer: Manufacturer) {
+    return this.prisma.product.count({
+      where: {
+        manufacturerId: manufacturer.id,
+      }
+    })
+  }
+
 }

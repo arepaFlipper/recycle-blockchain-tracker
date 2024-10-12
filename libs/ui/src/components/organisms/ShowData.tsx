@@ -1,6 +1,7 @@
 import { PageTitle } from '../atoms/PageTitle';
 import { AlertSection } from '../molecules/AlertSection';
 import { LoaderPanel } from '../molecules/Loader';
+import NoItemsFound from '../molecules/NoItemsFound';
 import Pagination from '../molecules/Pagination'
 
 interface ShowDataProps {
@@ -50,7 +51,7 @@ export const ShowData: React.FC<ShowDataProps> = ({
     <div className="show-data">
       {title && <PageTitle>{title}</PageTitle>}
       <div className={`${(className) ?? ''}`}>{children}</div>
-      {(pagination.totalCount === 0) ? (<AlertSection>No results</AlertSection>) : null}
+      {(pagination.totalCount === 0) ? (<NoItemsFound />) : null}
       <Pagination
         setSkip={pagination.setSkip}
         setTake={pagination.setTake}

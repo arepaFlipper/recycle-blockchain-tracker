@@ -68,7 +68,7 @@ const CustomDonutChart = ({ data }: IDonutChartProps) => {
       </svg>
       <div className="mb-2 absolute bottom-0 w-36 left-1/2 -translate-x-1/2">
         {(hoveredValue) ? (
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center text-black">
             <div className="text-5xl">{hoveredValue.value}</div>
             {hoveredValue.label}
           </div>

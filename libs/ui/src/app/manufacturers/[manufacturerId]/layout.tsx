@@ -5,6 +5,7 @@ import ManufacturerTopCard from "../../../components/organisms/ManufacturerTopCa
 import { ReactNode } from "react";
 import NoItemsFound from "../../../components/molecules/NoItemsFound";
 import Styled from "../../../components/molecules/StyledLink";
+import ManufacturerRegisterButton from "../../../components/molecules/ManufacturerRegisterButton";
 
 type LayoutProps = {
   children: ReactNode;
@@ -20,7 +21,7 @@ const Layout = ({ children, params }: LayoutProps) => {
     return (
       <NoItemsFound>
         <div className="text-xl">Manufacturer not found.</div>
-        <Styled href="/manufacturers/register">Register as manufacturer</Styled>
+        <ManufacturerRegisterButton />
       </NoItemsFound>
     )
   }

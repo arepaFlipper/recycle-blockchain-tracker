@@ -1,4 +1,5 @@
 import { ManufacturersDocument } from '@recycle-chain/network/src/gql/generated';
+import { ManufacturersQuery } from "@recycle-chain/network/src/gql/generated"
 import { useQuery } from '@apollo/client';
 import { useTakeSkip } from '@recycle-chain/util/src/hooks/pagination';
 import { PageTitle } from '../atoms/PageTitle';
@@ -15,7 +16,7 @@ const AllManufacturers = () => {
 
   return (
     <div>
-      <div className="flex gap-2 justify-between">
+      <div className="flex gap-2 justify-between items-baseline">
         <PageTitle>Manufacturers</PageTitle>
         <ManufacturerRegisterButton />
       </div>
@@ -32,7 +33,7 @@ const AllManufacturers = () => {
         }}
         title="Manufacturers"
       >
-        {data?.manufacturers?.map((manufacturer) => {
+        {data?.manufacturers?.map((manufacturer: ManufacturersQuery['manufacturers'][0]) => {
           return (
             <ManufacturerCard key={manufacturer.id} manufacturer={manufacturer} />
           )

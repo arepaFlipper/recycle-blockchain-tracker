@@ -3,7 +3,7 @@
 import { useQuery } from "@apollo/client";
 import { ManufacturerDocument } from "@recycle-chain/network/src/gql/generated";
 import { useAccount } from "@recycle-chain/util/src/hooks/ether";
-import Link from "next/link";
+import StyledLink from "./StyledLink";
 
 const ManufacturerRegisterButton = () => {
   const { account } = useAccount();
@@ -13,7 +13,7 @@ const ManufacturerRegisterButton = () => {
 
   if (!data?.manufacturer) {
     return (
-      <Link href="/manufacturer/register">Register</Link>
+      <StyledLink href="/manufacturers/register">Register as manufacturer</StyledLink>
     )
   }
 

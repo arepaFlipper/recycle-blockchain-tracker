@@ -28,9 +28,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="bg-[#181825]">
       <ApolloProvider>
-        <body className={`${geistSans.variable} ${geistMono.variable} antialiase bg-gray-25`} >
+        <body className={`${geistSans.variable} ${geistMono.variable} antialiase bg-[#181825] `} >
           <Header />
           <Container className="text-white">{children}</Container>
         </body>

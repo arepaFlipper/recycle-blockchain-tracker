@@ -11,7 +11,11 @@ interface ProductStatusChartProps {
 const DonutChartSimplified = ({ total, sold, returned, recycled }: ProductStatusChartProps) => {
   const manufactured = total - (sold + returned + recycled);
   if (!total) {
-    return <NoItemsFound />
+    return (
+      <div className="aspect-[4/3] bg-[#1F1F1F] flex justify-center items-center ">
+        <NoItemsFound />
+      </div>
+    )
   }
   return (
     <CustomDonutChart data={[

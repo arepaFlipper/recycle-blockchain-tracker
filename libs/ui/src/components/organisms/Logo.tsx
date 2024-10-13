@@ -8,7 +8,7 @@ export const Logo = () => {
 
       <div className="z-10 text-black text-xl font-semibold ">
         <div>Recycle Chain</div>
-        <div className="text-xs text-gray">Karthick Ragavendran</div>
+        <div className="text-xs text-gray">Blockchain Tracker</div>
       </div>
 
       <div className="absolute top-0 z-20 px-1 mb-4 -translate-x-1 -translate-y-1/2 left-full">

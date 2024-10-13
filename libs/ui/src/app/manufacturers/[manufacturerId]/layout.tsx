@@ -1,9 +1,13 @@
 "use client"
 import { ManufacturerDocument } from "@recycle-chain/network/src/gql/generated";
 import { useQuery } from "@apollo/client";
+import ManufacturerTopCard from "../../../components/organisms/ManufacturerTopCard";
+import { ReactNode } from "react";
+import NoItemsFound from "../../../components/molecules/NoItemsFound";
+import Styled from "../../../components/molecules/StyledLink";
 
 type LayoutProps = {
-  children: React.ReactNode;
+  children: ReactNode;
   params: { manufacturerId: string }
 }
 
@@ -11,11 +15,18 @@ const Layout = ({ children, params }: LayoutProps) => {
   const { data } = useQuery(ManufacturerDocument, {
     variables: { where: { id: params.manufacturerId } },
   });
-  console.log(`🌖%clayout.tsx:14 - data`, 'font-weight:bold; background:#44bb00;color:#fff;'); //DELETEME:
-  console.log(data); // DELETEME:
+
+  if (!data?.manufacturer) {
+    return (
+      <NoItemsFound>
+        <div className="text-xl">Manufacturer not found.</div>
+        <Styled href="/manufacturers/register">Register as manufacturer</Styled>
+      </NoItemsFound>
+    )
+  }
   return (
     <main>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
+      <ManufacturerTopCard manufacturer={data?.manufacturer} className="mb-4" />
       {children}
     </main>
   )

@@ -2,7 +2,7 @@ import { IconBox } from '@tabler/icons-react';
 import { ReactNode } from 'react';
 
 type Props = {
-  children: ReactNode
+  children?: ReactNode
 }
 
 const NoItemsFound = ({ children = 'No items found 🥱' }: Props) => {

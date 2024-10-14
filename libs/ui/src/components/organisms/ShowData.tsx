@@ -51,7 +51,7 @@ export const ShowData: React.FC<ShowDataProps> = ({
     <div className="show-data">
       {title && <PageTitle>{title}</PageTitle>}
       <div className={`${(className) ?? ''}`}>{children}</div>
-      {(pagination.totalCount === 0) ? (<NoItemsFound />) : null}
+      {(pagination.totalCount === 0) && (<NoItemsFound> <></></NoItemsFound>)}
       <Pagination
         setSkip={pagination.setSkip}
         setTake={pagination.setTake}

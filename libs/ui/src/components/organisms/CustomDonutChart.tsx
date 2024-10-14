@@ -25,7 +25,6 @@ const CustomDonutChart = ({ data }: IDonutChartProps) => {
 
     const arcs = calculateArcs(data)
 
-    console.log('arcs', arcs)
     return arcs
   }, [data])
 
@@ -40,7 +39,6 @@ const CustomDonutChart = ({ data }: IDonutChartProps) => {
     .outerRadius(radius)
     .cornerRadius(2)
 
-  console.log('arcGenerator ', arcGenerator)
 
   return (
     <div className="relative">
@@ -51,8 +49,6 @@ const CustomDonutChart = ({ data }: IDonutChartProps) => {
         <g transform={`translate(${radius}, ${radius})`}>
           {arcs.map((arc => {
             const hovered = arc.data.label === hoveredValue?.label
-            console.log(`🗞️ %cCustomDonutChart.tsx:54 - arc.data.color`, 'font-weight:bold; background:#9b6400;color:#fff;'); //DELETEME:
-            console.log(arc.data.color); // DELETEME:
             return (
               <path
                 key={arc.data.label}

@@ -17,6 +17,7 @@ interface ShowDataProps {
   }
   title?: React.ReactNode;
   children: React.ReactNode;
+  totalCount?: number
   className?: string;
 }
 
@@ -27,7 +28,7 @@ export const ShowData: React.FC<ShowDataProps> = ({
   title,
   children,
   className = 'grid gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4',
-}) => {
+}: ShowDataProps) => {
   if (loading) {
     return <LoaderPanel />
   }

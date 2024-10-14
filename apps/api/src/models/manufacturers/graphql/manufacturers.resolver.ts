@@ -38,8 +38,6 @@ export class ManufacturersResolver {
   async manufacturersCount(
     @Args('where', { nullable: true })
     where: ManufacturerWhereInput,
-    @Args('distinct', { type: () => [Prisma.ManufacturerScalarFieldEnum] })
-    distinct: Prisma.ManufacturerScalarFieldEnum[],
   ) {
     return this.prisma.manufacturer.count({ where });
   }

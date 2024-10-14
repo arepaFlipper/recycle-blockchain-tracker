@@ -1,5 +1,4 @@
-import { ManufacturersDocument } from '@recycle-chain/network/src/gql/generated';
-import { ManufacturersQuery } from "@recycle-chain/network/src/gql/generated"
+import { ManufacturersDocument, ManufacturersQuery } from '@recycle-chain/network/src/gql/generated';
 import { useQuery } from '@apollo/client';
 import { useTakeSkip } from '@recycle-chain/util/src/hooks/pagination';
 import { PageTitle } from '../atoms/PageTitle';
@@ -31,6 +30,7 @@ const AllManufacturers = () => {
           resultCount: data?.manufacturers.length,
           totalCount: data?.manufacturersCount,
         }}
+        className="grid gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 "
         title="Manufacturers"
       >
         {data?.manufacturers?.map((manufacturer: ManufacturersQuery['manufacturers'][0]) => {

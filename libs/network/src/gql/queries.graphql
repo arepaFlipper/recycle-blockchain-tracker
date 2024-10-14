@@ -34,9 +34,8 @@ query Manufacturers(
     where: $where
   ) {
     ...ManufacturerFields,
-    # totalCount(where: $where)
   }
-  # manufacturersCount(where: $where)
+  manufacturersCount(where: $where)
 }
 
 query Manufacturer($where: ManufacturerWhereUniqueInput!) {

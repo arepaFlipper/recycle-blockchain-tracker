@@ -68,7 +68,7 @@ type Transaction {
 type Query {
   manufacturers(distinct: [ManufacturerScalarFieldEnum!], where: ManufacturerWhereInput, orderBy: [ManufacturerOrderByWithRelationInput!], cursor: ManufacturerWhereUniqueInput, take: Float, skip: Float): [Manufacturer!]!
   manufacturer(where: ManufacturerWhereUniqueInput!): Manufacturer!
-  manufacturersCount(where: ManufacturerWhereInput, distinct: [ManufacturerScalarFieldEnum!]!): Float!
+  manufacturersCount(where: ManufacturerWhereInput): Float!
   productItems(distinct: [ProductItemScalarFieldEnum!], where: ProductItemWhereInput, orderBy: [ProductItemOrderByWithRelationInput!], cursor: ProductItemWhereUniqueInput, take: Float, skip: Float): [ProductItem!]!
   productItem(where: ProductItemWhereUniqueInput!): ProductItem!
   products(distinct: [ProductScalarFieldEnum!], where: ProductWhereInput, orderBy: [ProductOrderByWithRelationInput!], cursor: ProductWhereUniqueInput, take: Float, skip: Float): [Product!]!

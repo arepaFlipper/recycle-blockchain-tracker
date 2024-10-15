@@ -59,11 +59,11 @@ export class ProductsResolver {
   }
 
   @Query(() => Number, { name: 'productsCount' })
-  async manufacturersCount(
+  async productsCount(
     @Args('where', { nullable: true })
     where: ProductWhereInput,
   ) {
-    return this.prisma.manufacturer.count({ where });
+    return this.prisma.product.count({ where });
   }
 
   @ResolveField(() => Number, { name: 'getCountPerStatus' })

@@ -19,7 +19,7 @@ query Products(
     timestamp
     totalCount
     soldCount: getCountPerStatus(status: SOLD)
-    retrunedCount: getCountPerStatus(status: RETURNED)
+    returnedCount: getCountPerStatus(status: RETURNED)
     recycledCount: getCountPerStatus(status: RECYCLED)
     manufacturer { name }
     toxicItems {

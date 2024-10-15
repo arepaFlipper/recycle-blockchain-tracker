@@ -7,6 +7,8 @@ import { PageTitle } from '@recycle-chain/ui/src/components/atoms/PageTitle';
 import { useState } from 'react';
 import { useAccount } from '@recycle-chain/util/src/hooks/ether';
 import { IconSearch } from '@tabler/icons-react';
+import { ShowData } from '@recycle-chain/ui/src/components/organisms/ShowData';
+import ProductCard from '@recycle-chain/ui/src/components/organisms/ProductCard';
 
 type PageProps = {
   params: { manufacturerId: string }
@@ -14,7 +16,7 @@ type PageProps = {
 
 const Page = ({ params }: PageProps) => {
   const { manufacturerId } = params;
-  const { setSkip, setTake, skip, take } = useTakeSkip();
+  const { setSkip, setTake, skip, take } = useTakeSkip(0, 1);
   const [searchTerm, setSearchTerm] = useState('');
   const { loading, data } = useQuery(ProductsDocument, {
     variables: {
@@ -52,6 +54,27 @@ const Page = ({ params }: PageProps) => {
           />
         </div>
       </div>
+
+      <ShowData
+        loading={loading}
+        pagination={{
+          resultCount: data?.products?.length,
+          totalCount: data?.productsCount,
+          setSkip,
+          setTake,
+          skip,
+          take,
+        }}
+        className="grid gap-3 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3"
+      >
+        <div>
+          {data?.products?.map((product) => {
+            return (
+              <ProductCard key={product.id} product={product} />
+            )
+          })}
+        </div>
+      </ShowData>
 
       <pre className="text-white text-xs" >{JSON.stringify(data, null, 2)}</pre>
     </div>

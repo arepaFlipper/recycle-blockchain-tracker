@@ -4,8 +4,8 @@ import { useQuery } from "@apollo/client";
 import ManufacturerTopCard from "../../../components/organisms/ManufacturerTopCard";
 import { ReactNode } from "react";
 import NoItemsFound from "../../../components/molecules/NoItemsFound";
-import Styled from "../../../components/molecules/StyledLink";
 import ManufacturerRegisterButton from "../../../components/molecules/ManufacturerRegisterButton";
+import { LoaderPanel } from "../../../components/molecules/Loader";
 
 type LayoutProps = {
   children: ReactNode;
@@ -13,9 +13,13 @@ type LayoutProps = {
 }
 
 const Layout = ({ children, params }: LayoutProps) => {
-  const { data } = useQuery(ManufacturerDocument, {
+  const { data, loading } = useQuery(ManufacturerDocument, {
     variables: { where: { id: params.manufacturerId } },
   });
+
+  if (loading) {
+    return (<LoaderPanel />)
+  }
 
   if (!data?.manufacturer) {
     return (

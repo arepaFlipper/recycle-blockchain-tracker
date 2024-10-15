@@ -82,6 +82,19 @@ export class ManufacturersResolver {
     })
   }
 
+  @ResolveField(() => Number, { name: 'getCountPerStatus' })
+  async getCountPerStatus(
+    @Parent() manufacturer: Manufacturer,
+    @Args('status', { type: () => ProductStatus }) status: ProductStatus
+  ) {
+    return this.prisma.productItem.count({
+      where: {
+        status,
+        product: { manufacturerId: manufacturer.id }
+      }
+    })
+  }
+
   @ResolveField(() => Number, { name: 'productsCount' })
   async productsCount(@Parent() manufacturer: Manufacturer) {
     return this.prisma.product.count({

@@ -1,7 +1,56 @@
-query Products {
-  products {
+query Products(
+  $skip: Float
+  $take: Float
+  $cursor: ProductWhereUniqueInput
+  $orderBy: [ProductOrderByWithRelationInput!]
+  $where: ProductWhereInput
+  $distinct: [ProductScalarFieldEnum!]
+  ) {
+  products (
+    skip: $skip
+    take: $take
+    cursor: $cursor
+    orderBy: $orderBy
+    where: $where
+    distinct: $distinct
+  ){
     id
     name
+    timestamp
+    totalCount
+    soldCount: getCountPerStatus(status: SOLD)
+    retrunedCount: getCountPerStatus(status: RETURNED)
+    recycledCount: getCountPerStatus(status: RECYCLED)
+    manufacturer { name }
+    toxicItems {
+      id
+      name
+      timestamp
+      weight
+    }
+  }
+  productsCount(where: $where)
+}
+
+query Product($where: ProductWhereUniqueInput!){
+  product(where: $where){
+    id
+    name
+    soldCount: getCountPerStatus(status: SOLD)
+    returnedCount: getCountPerStatus(status: RETURNED)
+    recycledCount: getCountPerStatus(status: RECYCLED)
+    timestamp
+    totalCount
+    manufacturerId
+    manufacturer {
+      name
+    }
+    toxicItems {
+      weight
+      timestamp
+      name
+      id
+    }
   }
 }
 
@@ -43,3 +92,4 @@ query Manufacturer($where: ManufacturerWhereUniqueInput!) {
     ...ManufacturerFields
   }
 }
+

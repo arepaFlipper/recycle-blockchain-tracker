@@ -38,11 +38,11 @@ const ProductCard = ({ product, children }: IProductCardProps) => {
       <div className="mt-auto">
         <div className="flex justify-end mt-4 ">
           <Styled
-            href={`/manufacturers/${product.id}`}
+            href={`/products/${product.id}`}
             className="underline underline-offset-4 font-semibold text-lg"
             key={product.id}
           >
-            View
+            View Product
           </Styled>
         </div>
       </div>

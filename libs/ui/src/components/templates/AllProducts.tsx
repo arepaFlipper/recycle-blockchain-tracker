@@ -9,7 +9,7 @@ import { PageTitle } from '../atoms/PageTitle';
 import ProductCard from '../organisms/ProductCard';
 
 type Props = {
-  manufacturerId: string;
+  manufacturerId?: string;
 }
 
 const AllProducts = ({ manufacturerId }: Props) => {

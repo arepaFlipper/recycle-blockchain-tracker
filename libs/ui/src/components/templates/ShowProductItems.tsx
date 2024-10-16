@@ -6,6 +6,7 @@ import { ProductItemsDocument } from "@recycle-chain/network/src/gql/generated";
 import { PageTitle } from "../atoms/PageTitle";
 import { IconSearch } from "@tabler/icons-react";
 import { ShowData } from "../organisms/ShowData";
+import { ProductItemCard } from "../organisms/ProductItemCard";
 
 type Props = {
   productId: string;
@@ -55,7 +56,7 @@ const ShowProductItems = ({ productId }: Props) => {
         {' '}
         {data?.productItems?.map((item) => {
           return (
-            <div key={item.id}>{item.id}</div>
+            <ProductItemCard key={item.id} productItem={item} />
           )
         })}
       </ShowData>

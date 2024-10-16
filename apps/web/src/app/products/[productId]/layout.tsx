@@ -4,6 +4,7 @@ import { ReactNode } from "react"
 import { useQuery } from '@apollo/client'
 import { LoaderPanel } from "@recycle-chain/ui/src/components/molecules/Loader";
 import { AlertSection } from "@recycle-chain/ui/src/components/molecules/AlertSection";
+import ProductTopCard from "@recycle-chain/ui/src/components/organisms/ProductTopCard";
 
 type Props = {
   children: ReactNode;
@@ -25,6 +26,7 @@ const Layout = ({ children, params }: Props) => {
 
   return (
     <main className="mt-6">
+      <ProductTopCard product={data.product} />
       <pre>{JSON.stringify(data, null, 2)}</pre>
     </main>
   )

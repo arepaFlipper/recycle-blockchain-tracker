@@ -27,7 +27,7 @@ const Layout = ({ children, params }: Props) => {
   return (
     <main className="mt-6">
       <ProductTopCard product={data.product} />
-      <pre>{JSON.stringify(data, null, 2)}</pre>
+      {children}
     </main>
   )
 }

@@ -93,3 +93,33 @@ query Manufacturer($where: ManufacturerWhereUniqueInput!) {
   }
 }
 
+
+query ProductItems(
+  $skip: Float
+  $take: Float
+  $cursor: ProductItemWhereUniqueInput
+  $orderBy:[ProductItemOrderByWithRelationInput!]
+  $where: ProductItemWhereInput
+  $distinct: [ProductItemScalarFieldEnum!]
+) {
+  productItems(
+    skip: $skip
+    take: $take
+    cursor: $cursor
+    orderBy: $orderBy
+    where: $where
+    distinct: $distinct
+  ) {
+    id
+    status
+    timestamp
+    product {
+      name
+    }
+    # transactions{
+    #   timestamp
+    #   status
+    # } 
+  }
+  productItemsCount(where: $where)
+}

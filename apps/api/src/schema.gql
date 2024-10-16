@@ -47,7 +47,7 @@ type ProductItem {
   timestamp: DateTime!
   productId: String!
   product: Product!
-  transaction: Product!
+  transactions: [Transaction!]!
 }
 
 type ToxicItem {

@@ -34,7 +34,7 @@ const ProductTopCard = ({ product, children }: IProductCardProps) => {
           <ToxicItemsChart toxicItems={product.toxicItems} />
         </div>
         <div className="flex mt-8">
-          <Styled href="/products" className="flex items-cneter gap-2">
+          <Styled href="/products" className="flex items-center gap-2">
             All products
           </Styled>
         </div>

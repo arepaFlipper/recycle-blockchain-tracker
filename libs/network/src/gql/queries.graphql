@@ -116,10 +116,10 @@ query ProductItems(
     product {
       name
     }
-    # transactions{
-    #   timestamp
-    #   status
-    # } 
+    transactions {
+      timestamp
+      status
+    } 
   }
   productItemsCount(where: $where)
 }

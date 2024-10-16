@@ -6,6 +6,7 @@ import { PrismaService } from 'src/common/prisma/prisma.service'
 import { Product } from 'src/models/products/graphql/entity/product.entity'
 import { ProductWhereInput } from 'src/models/products/graphql/dtos/where.args'
 import { ProductItemWhereInput } from './dtos/where.args'
+import { Transaction } from 'src/models/transactions/graphql/entity/transaction.entity'
 
 @Resolver(() => ProductItem)
 export class ProductItemsResolver {
@@ -32,8 +33,8 @@ export class ProductItemsResolver {
     })
   }
 
-  @ResolveField(() => Product)
-  transaction(@Parent() productItem: ProductItem) {
+  @ResolveField(() => [Transaction])
+  transactions(@Parent() productItem: ProductItem) {
     return this.prisma.transaction.findMany({
       where: { productItemId: productItem.id }
     })

@@ -16,7 +16,7 @@ export type IButtonProps = {
 
 const variantColor = {
   contained: {
-    primary: 'text-white bg-black border-2 border-black hover:opacity-80',
+    primary: 'text-white bg-[#181825] border-2 border-black hover:opacity-80',
     white: 'text-black bg-white',
     success: 'text-white bg-green hover:bg-green-700',
     error: 'text-white bg-red hover:bg-red-700',
@@ -68,7 +68,7 @@ export const Button = ({
       // eslint-disable-next-line react/button-has-type
       type={type}
       disabled={disabled || loading}
-      className={`   relative rounded font-medium ${sizeCls} ${fwCls} ${variantCls} ${disCls}  ${className} `}
+      className={` text-white border-white  relative rounded font-medium ${sizeCls} ${fwCls} ${variantCls} ${disCls}  ${className} `}
       {...props}
     >
       {loading ? (

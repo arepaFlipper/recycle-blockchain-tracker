@@ -34,7 +34,7 @@ export const Dialog = ({
     <Transition appear show={open} as={Fragment}>
       <HeadlessUIDialog
         as="div"
-        className="relative z-50 rounded"
+        className="relative z-50 rounded "
         onClose={closeModal}
       >
         {blur ? (
@@ -63,18 +63,18 @@ export const Dialog = ({
               leaveTo="opacity-0 scale-95"
             >
               <DialogPanel
-                className={`w-full  p-4 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl ${widthClassName}`}
+                className={`w-full rounded-md border-white border p-4 overflow-hidden text-left align-middle transition-all transform bg-[#181825] shadow-xl ${widthClassName}`}
               >
                 <button
                   type="button"
                   className="absolute top-0 right-0 flex items-center justify-center w-8 h-8 hover:bg-black/10"
                   onClick={() => setOpen(false)}
                 >
-                  <IconX className="text-gray-600" />
+                  <IconX className="text-gray-200" />
                 </button>
                 <DialogTitle
                   as="h3"
-                  className="mb-4 text-lg font-semibold leading-6 "
+                  className="mb-4 text-lg font-semibold leading-6 text-gray-200 "
                 >
                   {title}
                 </DialogTitle>
@@ -84,6 +84,6 @@ export const Dialog = ({
           </div>
         </div>
       </HeadlessUIDialog>
-    </Transition>
+    </Transition >
   )
 }

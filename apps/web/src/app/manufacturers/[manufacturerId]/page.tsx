@@ -2,9 +2,15 @@
 
 import AllProducts from '@recycle-chain/ui/src/components/templates/AllProducts';
 
-const Page = () => {
+type Props = {
+  params: {
+    manufacturerId: string
+  }
+}
+
+const Page = ({ params: { manufacturerId } }: Props) => {
   return (
-    <AllProducts />
+    <AllProducts manufacturerId={manufacturerId} />
   )
 }
 

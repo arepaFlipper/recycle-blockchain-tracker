@@ -7,6 +7,8 @@ import { ShowData } from '../organisms/ShowData';
 import { IconSearch } from '@tabler/icons-react';
 import { PageTitle } from '../atoms/PageTitle';
 import ProductCard from '../organisms/ProductCard';
+import { AddProductDialog } from '../organisms/AddProductDialog';
+import { useAccount } from '@recycle-chain/util/src/hooks/ether';
 
 type Props = {
   manufacturerId?: string;
@@ -32,13 +34,17 @@ const AllProducts = ({ manufacturerId }: Props) => {
     },
   })
 
+  const { account } = useAccount();
+  const showCreateProductDialog = account.toLowerCase() === manufacturerId?.toLowerCase();
+
   return (
     <div>
       <div className="flex justify-between items-baseline gap-2 w-full">
         <PageTitle>All products</PageTitle>
+        {showCreateProductDialog && <AddProductDialog />}
       </div>
       <div className=" mb-3">
-        <div className="flex max-w-sm items-center gap-2 shadow-xl bg-white px-4 rounded">
+        <div className="flex max-w-sm items-center gap-2 shadow-xl px-4 rounded">
           <IconSearch />
           <input
             placeholder="Search product name"

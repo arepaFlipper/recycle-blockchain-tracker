@@ -1,4 +1,5 @@
 "use client"
+
 import { useTakeSkip } from "@recycle-chain/util/src/hooks/pagination";
 import { useState } from "react";
 import { useQuery } from "@apollo/client";
@@ -6,7 +7,7 @@ import { ProductItemsDocument } from "@recycle-chain/network/src/gql/generated";
 import { PageTitle } from "../atoms/PageTitle";
 import { IconSearch } from "@tabler/icons-react";
 import { ShowData } from "../organisms/ShowData";
-import { ProductItemCard } from "../organisms/ProductItemCard";
+import ProductItemCard from "../organisms/ProductItemCard";
 
 type Props = {
   productId: string;

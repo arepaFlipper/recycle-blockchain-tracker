@@ -7,19 +7,50 @@ import { Form } from '../atoms/Form';
 import { HtmlLabel } from '../atoms/HtmlLabel';
 import { HtmlInput } from '../atoms/HtmlInput';
 import AddToxicItems from './AddToxicItems';
+import { addProduct } from '@recycle-chain/util/src/actions/addProduct';
+import { useAccount } from '@recycle-chain/util/src/hooks/ether';
+import { useApolloClient } from '@apollo/client';
+import { namedOperations, ProductsQuery } from '@recycle-chain/network/src/gql/generated';
+
+type TProduct = NonNullable<ProductsQuery['products']>[0]
 
 export const AddProductContent = () => {
+  const client = useApolloClient();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const { register, handleSubmit, reset, formState } = useFormContext<FormTypeCreateProduct>();
   const { errors } = formState;
+  const { contract } = useAccount();
+
+
+  const handleSubmitForm = async (data: FormTypeCreateProduct) => {
+    if (!contract) {
+      alert('Please connect your wallet');
+      return;
+    }
+    setLoading(false);
+    const toxicNames = (data as TProduct).toxicItems.map((item) => item.name);
+    const toxicWeights = (data as TProduct).toxicItems.map((item) => item.weight);
+    const status = await addProduct({ contract, payload: { name: data.name, toxicNames, toxicWeights } });
+    if (status) {
+      reset();
+      client.refetchQueries({ include: [namedOperations.Query.Products] });
+      setOpen(false);
+      alert('Product added successfully 😀 🎉');
+    }
+    setLoading(true);
+  }
+
   return (
     <div >
       <Button variant="outlined" onClick={() => setOpen(true)} className="flex items-center gap-2 text-white border-white">
         Add product
       </Button>
       <Dialog open={open} setOpen={setOpen} title={"Add Product"} className="bg-[#181825]" >
-        <Form className="bg-[#181825]">
+        <Form
+          className="bg-[#181825]"
+          onSubmit={handleSubmit(handleSubmitForm)}
+        >
           <HtmlLabel title="Name" error={errors.name?.message} >
             <HtmlInput className="bg-[#181825]" placeholder="Enter name" {...register('name')} />
           </HtmlLabel>

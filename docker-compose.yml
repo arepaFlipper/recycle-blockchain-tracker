@@ -1,0 +1,76 @@
+version: "3.9"
+services:
+  db:
+    container_name: recycle_chain_workshop_db
+    image: postgres
+    restart: always
+    ports:
+      - 2023:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - db_data_recycle_chain_workshop:/var/lib/postgresql/data
+
+  api:
+    image: node:latest
+    working_dir: /app/apps/api
+    volumes:
+      - .:/app
+    command: sh -c "yarn && yarn dev"
+    env_file:
+      - apps/api/.env
+    ports:
+      - "3001:3000"
+    depends_on:
+      - db
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      retries: 3
+      start_period: 30s
+      timeout: 10s
+
+  prisma:
+    image: node:latest
+    working_dir: /app
+    volumes:
+      - .:/app
+    command: sh -c "yarn && cd apps/api && npx prisma studio"
+    env_file:
+      - apps/api/.env
+    ports:
+      - "5555:5555"
+    depends_on:
+      - db
+
+  web:
+    image: node:latest
+    working_dir: /app/
+    volumes:
+      - .:/app
+    command: sh -c "yarn && cd apps/web && yarn dev"
+    env_file:
+      - apps/web/.env
+    ports:
+      - "3002:3000"
+    depends_on:
+      - api
+
+  ui:
+    image: node:latest
+    working_dir: /app/
+    volumes:
+      - .:/app
+    command: sh -c "yarn && cd libs/ui && yarn dev"
+    env_file:
+      - apps/web/.env
+    ports:
+      - "3003:3000"
+    depends_on:
+      - db
+
+volumes:
+  db_data_recycle_chain_workshop:
+

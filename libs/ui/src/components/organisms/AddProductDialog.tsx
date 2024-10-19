@@ -11,6 +11,7 @@ import { addProduct } from '@recycle-chain/util/src/actions/addProduct';
 import { useAccount } from '@recycle-chain/util/src/hooks/ether';
 import { useApolloClient } from '@apollo/client';
 import { namedOperations, ProductsQuery } from '@recycle-chain/network/src/gql/generated';
+import { toast }  from '../molecules/Toast';
 
 type TProduct = NonNullable<ProductsQuery['products']>[0]
 
@@ -25,7 +26,7 @@ export const AddProductContent = () => {
 
   const handleSubmitForm = async (data: FormTypeCreateProduct) => {
     if (!contract) {
-      alert('Please connect your wallet');
+      toast ('Please connect your wallet');
       return;
     }
     setLoading(true);
@@ -35,9 +36,9 @@ export const AddProductContent = () => {
     if (status) {
       reset();
       client.refetchQueries({ include: [namedOperations.Query.Products] });
-      alert('Product added successfully 😀 🎉');
+      toast('Product added successfully 😀 🎉');
     } else {
-      alert('Something went wrong adding the product 😢 😢 😢');
+      toast('Something went wrong adding the product 😢 😢 😢');
     }
     setLoading(false);
   }

@@ -9,6 +9,7 @@ import { HtmlLabel } from '../atoms/HtmlLabel';
 import { HtmlInput } from '../atoms/HtmlInput';
 import { addProductItems } from '@recycle-chain/util/src/actions/addProductItems';
 import { namedOperations } from '@recycle-chain/network/src/gql/generated';
+import { toast } from 'react-toastify';
 
 type IAddProductItemsDialogProps = {
   productId: string;
@@ -26,7 +27,7 @@ const AddProductItemsDialog = ({ productId }: IAddProductItemsDialogProps) => {
   const handle_form_submit = async ({ quantity }: { quantity: number }) => {
     setLoading(true);
     if (!contract) {
-      alert('Please connect your wallet');
+      toast('Please connect your wallet 👛');
       return;
     }
     const status = await addProductItems({ contract, payload: { productId, quantity } })
@@ -39,9 +40,9 @@ const AddProductItemsDialog = ({ productId }: IAddProductItemsDialogProps) => {
           namedOperations.Query.ProductItems,
         ]
       });
-      alert('Product created successfully 😀 🎉 😌');
+      toast('Product created successfully 😀 🎉 😌');
     } else {
-      alert('Something went wrong adding the product item 😢 🥺');
+      toast('Something went wrong adding the product item 😢 🥺');
     };
 
     setLoading(false);

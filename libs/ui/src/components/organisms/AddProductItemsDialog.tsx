@@ -39,10 +39,12 @@ const AddProductItemsDialog = ({ productId }: IAddProductItemsDialogProps) => {
           namedOperations.Query.ProductItems,
         ]
       });
+      alert('Product created successfully 😀 🎉 😌');
+    } else {
+      alert('Something went wrong adding the product item 😢 🥺');
     };
 
     setLoading(false);
-    alert('Product created successfully 😀 🎉');
   }
 
   return (

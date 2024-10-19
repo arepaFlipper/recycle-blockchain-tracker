@@ -35,8 +35,9 @@ export const AddProductContent = () => {
     if (status) {
       reset();
       client.refetchQueries({ include: [namedOperations.Query.Products] });
-      setOpen(false);
       alert('Product added successfully 😀 🎉');
+    } else {
+      alert('Something went wrong adding the product 😢 😢 😢');
     }
     setLoading(false);
   }

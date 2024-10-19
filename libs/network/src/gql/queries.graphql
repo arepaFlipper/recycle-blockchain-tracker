@@ -54,6 +54,16 @@ query Product($where: ProductWhereUniqueInput!){
   }
 }
 
+query ProductManufacturer($where: ProductWhereUniqueInput!){
+  product(where: $where){
+    id
+    manufacturerId
+    manufacturer {
+      name
+    }
+  }
+}
+
 fragment ManufacturerFields on Manufacturer {
   id
   name
@@ -92,7 +102,6 @@ query Manufacturer($where: ManufacturerWhereUniqueInput!) {
     ...ManufacturerFields
   }
 }
-
 
 query ProductItems(
   $skip: Float

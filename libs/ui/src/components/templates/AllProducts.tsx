@@ -15,7 +15,7 @@ type Props = {
 }
 
 const AllProducts = ({ manufacturerId }: Props) => {
-  const { setSkip, setTake, skip, take } = useTakeSkip(0, 1);
+  const { setSkip, setTake, skip, take } = useTakeSkip(0, 3);
   const [searchTerm, setSearchTerm] = useState('');
   const { loading, data } = useQuery(ProductsDocument, {
     variables: {

@@ -24,7 +24,7 @@ const AddProductItemsDialog = ({ productId }: IAddProductItemsDialogProps) => {
   const { contract } = useAccount();
 
   const handle_form_submit = async ({ quantity }: { quantity: number }) => {
-    setLoading(false);
+    setLoading(true);
     if (!contract) {
       alert('Please connect your wallet');
       return;

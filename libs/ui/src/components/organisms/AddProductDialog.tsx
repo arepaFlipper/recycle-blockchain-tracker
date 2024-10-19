@@ -28,7 +28,7 @@ export const AddProductContent = () => {
       alert('Please connect your wallet');
       return;
     }
-    setLoading(false);
+    setLoading(true);
     const toxicNames = (data as TProduct).toxicItems.map((item) => item.name);
     const toxicWeights = (data as TProduct).toxicItems.map((item) => item.weight);
     const status = await addProduct({ contract, payload: { name: data.name, toxicNames, toxicWeights } });
@@ -38,7 +38,7 @@ export const AddProductContent = () => {
       setOpen(false);
       alert('Product added successfully 😀 🎉');
     }
-    setLoading(true);
+    setLoading(false);
   }
 
   return (

@@ -3,11 +3,13 @@
 import { useTakeSkip } from "@recycle-chain/util/src/hooks/pagination";
 import { useState } from "react";
 import { useQuery } from "@apollo/client";
-import { ProductItemsDocument } from "@recycle-chain/network/src/gql/generated";
+import { ProductManufacturerDocument, ProductItemsDocument } from "@recycle-chain/network/src/gql/generated";
 import { PageTitle } from "../atoms/PageTitle";
 import { IconSearch } from "@tabler/icons-react";
 import { ShowData } from "../organisms/ShowData";
 import ProductItemCard from "../organisms/ProductItemCard";
+import AddProductItems from "../organisms/AddProductItemsDialog"
+import { useAccount } from "@recycle-chain/util/src/hooks/ether";
 
 type Props = {
   productId: string;
@@ -16,6 +18,12 @@ type Props = {
 const ShowProductItems = ({ productId }: Props) => {
   const { setSkip, setTake, skip, take } = useTakeSkip(0, 12);
   const [searchTerm, setSearchTerm] = useState('');
+
+  const { account } = useAccount();
+  const { data: productData } = useQuery(
+    ProductManufacturerDocument,
+    { variables: { where: { id: productId } } }
+  );
   const { loading, data } = useQuery(ProductItemsDocument, {
     variables: {
       skip,
@@ -27,6 +35,7 @@ const ShowProductItems = ({ productId }: Props) => {
     }
   });
 
+  const is_owner = account.toLowerCase() === productData?.product.manufacturerId.toLowerCase();
   return (
     <div>
       <PageTitle> Product Items</PageTitle>
@@ -42,6 +51,11 @@ const ShowProductItems = ({ productId }: Props) => {
         </div>
 
         <div>
+          {(is_owner) && (
+            <>
+              <AddProductItems productId={productId} />
+            </>
+          )}
           {/* TODO: if the viewer is the owner, add and modify items */}
         </div>
       </div>

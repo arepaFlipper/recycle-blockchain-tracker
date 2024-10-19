@@ -32,6 +32,8 @@ export const RegisterManufacturer = () => {
       console.error('Contract not found');
       return;
     }
+    console.log(`🍱%cRegisterManufacturer.tsx:35 - contract`, 'font-weight:bold; background:#7e8100;color:#fff;'); //DELETEME:
+    console.log(contract); // DELETEME:
     setLoading(true);
     const success = await registerManufacturer({ contract, payload: { contact, location, name } });
     setLoading(false);
@@ -47,7 +49,7 @@ export const RegisterManufacturer = () => {
   };
 
   return (
-    <div>
+    <div className="bg-[#181825]-">
       <PageTitle>Register</PageTitle>
       <Form className="max-w-md" onSubmit={handleSubmit(submitHandler)}>
         <HtmlLabel title="Name" error={errors.name?.message as string || ""}>

@@ -3,10 +3,22 @@ import { useApolloClient } from '@apollo/client';
 import { Button } from '../atoms/Button';
 import { useState } from 'react';
 import { toast } from '../molecules/Toast';
-import { sellProductItems } from '@recycle-chain/util/src/actions/updateProductItemStatus';
-import { namedOperations } from '@recycle-chain/network/src/gql/generated';
+import { updateProductItemStatus } from '@recycle-chain/util/src/actions/updateProductItemStatus';
+import { namedOperations, ProductStatus } from '@recycle-chain/network/src/gql/generated';
 
-export const SellItem = ({ id }: { id: string }) => {
+const statusToButtonText: Record<ProductStatus, string> = {
+  [ProductStatus.Manufactured]: 'Sell item 🤑 ',
+  [ProductStatus.Sold]: 'Return item 🔁',
+  [ProductStatus.Returned]: 'Recycle item ♻️ ',
+  [ProductStatus.Recycled]: 'Recycled 🌱',
+}
+
+type ActionButtonsProps = {
+  id: string;
+  status: ProductStatus;
+}
+
+export const UpdateProductItemStatusButton = ({ id, status }: ActionButtonsProps) => {
   const { contract } = useAccount();
   const client = useApolloClient();
   const [loading, setLoading] = useState(false);
@@ -17,9 +29,9 @@ export const SellItem = ({ id }: { id: string }) => {
       return;
     }
     setLoading(true);
-    const status = await sellProductItems({ contract, payload: { productItemIds: [id] } });
+    const new_status = await updateProductItemStatus({ contract, payload: { productItemIds: [id], currentStatus: status } });
 
-    if (status) {
+    if (new_status) {
       client.refetchQueries({
         include: [
           namedOperations.Query.ProductItems,
@@ -35,7 +47,9 @@ export const SellItem = ({ id }: { id: string }) => {
   }
 
   return (
-    <Button variant="text" onClick={handleSellItem} >Sell Item</Button>
+    <Button loading={loading} variant="text" onClick={handleSellItem} disabled={status === ProductStatus.Recycled} >
+      {statusToButtonText[status]}
+    </Button>
   )
 
 }

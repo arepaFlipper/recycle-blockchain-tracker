@@ -1,6 +1,6 @@
 import { ProductItemsQuery, ProductStatus } from "@recycle-chain/network/src/gql/generated";
 import Timeline from "./Timeline";
-import { SellItem } from "./ActionButtons";
+import { UpdateProductItemStatusButton } from "./ActionButtons";
 
 export interface IProductItemCardProps {
   productItem: NonNullable<ProductItemsQuery['productItems']>[0];
@@ -19,9 +19,7 @@ const ProductItemCard = ({ productItem, is_owner = false }: IProductItemCardProp
       <div className="flex gap-2 mt-6 items-center justify-end">
         {(is_owner) && (
           <div className="flex justify-end ">
-            {(productItem.status === ProductStatus.Manufactured) && (
-              <SellItem id={productItem.id} />
-            )}
+            <UpdateProductItemStatusButton id={productItem.id} status={productItem.status} />
           </div>
         )}
       </div>

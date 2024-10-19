@@ -30,11 +30,11 @@ const redPallete = {
   900: 'hsl(10, 94%, 04%)',
 }
 
-const brandHue = 10;
+const brandHue = 40;
 
 const grayPallete = {
   DEFAULT: `hsl(${brandHue}, 2%, 45%)`,
-  25: `hsl(${brandHue}, 2%, 98%)`,
+  25: `hsl(${brandHue}, 32.3%, 12.7%)`,
   50: `hsl(${brandHue}, 2%, 92%)`,
   100: `hsl(${brandHue}, 2%, 84%)`,
   200: `hsl(${brandHue}, 2%, 75%)`,

@@ -38,11 +38,22 @@ export type IntFilter = {
 export type Manufacturer = {
   __typename?: 'Manufacturer';
   contact: Scalars['String']['output'];
+  getCountPerStatus: Scalars['Float']['output'];
   id: Scalars['String']['output'];
   location: Scalars['String']['output'];
   name: Scalars['String']['output'];
   products: Array<Product>;
+  productsCount: Scalars['Float']['output'];
+  recycledCount: Scalars['Float']['output'];
+  returnedCount: Scalars['Float']['output'];
+  soldCount: Scalars['Float']['output'];
   timestamp: Scalars['DateTime']['output'];
+  totalCount: Scalars['Float']['output'];
+};
+
+
+export type ManufacturerGetCountPerStatusArgs = {
+  status: ProductStatus;
 };
 
 export type ManufacturerOrderByWithRelationInput = {
@@ -85,6 +96,7 @@ export type ManufacturerWhereUniqueInput = {
 
 export type Product = {
   __typename?: 'Product';
+  getCountPerStatus: Scalars['Float']['output'];
   id: Scalars['String']['output'];
   manufacturer: Manufacturer;
   manufacturerId: Scalars['String']['output'];
@@ -95,6 +107,11 @@ export type Product = {
   toxicItems: Array<ToxicItem>;
 };
 
+
+export type ProductGetCountPerStatusArgs = {
+  status: ProductStatus;
+};
+
 export type ProductItem = {
   __typename?: 'ProductItem';
   id: Scalars['String']['output'];
@@ -102,7 +119,7 @@ export type ProductItem = {
   productId: Scalars['String']['output'];
   status: ProductStatus;
   timestamp: Scalars['DateTime']['output'];
-  transaction: Product;
+  transactions: Array<Transaction>;
 };
 
 export type ProductItemListRelationFilter = {
@@ -212,10 +229,13 @@ export type Query = {
   __typename?: 'Query';
   manufacturer: Manufacturer;
   manufacturers: Array<Manufacturer>;
+  manufacturersCount: Scalars['Float']['output'];
   product: Product;
   productItem: ProductItem;
   productItems: Array<ProductItem>;
+  productItemsCount: Scalars['Float']['output'];
   products: Array<Product>;
+  productsCount: Scalars['Float']['output'];
   toxicItem: ToxicItem;
   toxicItems: Array<ToxicItem>;
   transaction: Transaction;
@@ -234,6 +254,11 @@ export type QueryManufacturersArgs = {
   orderBy?: InputMaybe<Array<ManufacturerOrderByWithRelationInput>>;
   skip?: InputMaybe<Scalars['Float']['input']>;
   take?: InputMaybe<Scalars['Float']['input']>;
+  where?: InputMaybe<ManufacturerWhereInput>;
+};
+
+
+export type QueryManufacturersCountArgs = {
   where?: InputMaybe<ManufacturerWhereInput>;
 };
 
@@ -258,12 +283,22 @@ export type QueryProductItemsArgs = {
 };
 
 
+export type QueryProductItemsCountArgs = {
+  where?: InputMaybe<ProductItemWhereInput>;
+};
+
+
 export type QueryProductsArgs = {
   cursor?: InputMaybe<ProductWhereUniqueInput>;
   distinct?: InputMaybe<Array<ProductScalarFieldEnum>>;
   orderBy?: InputMaybe<Array<ProductOrderByWithRelationInput>>;
   skip?: InputMaybe<Scalars['Float']['input']>;
   take?: InputMaybe<Scalars['Float']['input']>;
+  where?: InputMaybe<ProductWhereInput>;
+};
+
+
+export type QueryProductsCountArgs = {
   where?: InputMaybe<ProductWhereInput>;
 };
 
@@ -424,12 +459,33 @@ export type TransactionWhereUniqueInput = {
   id: Scalars['Float']['input'];
 };
 
-export type ProductsQueryVariables = Exact<{ [key: string]: never; }>;
+export type ProductsQueryVariables = Exact<{
+  skip?: InputMaybe<Scalars['Float']['input']>;
+  take?: InputMaybe<Scalars['Float']['input']>;
+  cursor?: InputMaybe<ProductWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<ProductOrderByWithRelationInput> | ProductOrderByWithRelationInput>;
+  where?: InputMaybe<ProductWhereInput>;
+  distinct?: InputMaybe<Array<ProductScalarFieldEnum> | ProductScalarFieldEnum>;
+}>;
 
 
-export type ProductsQuery = { __typename?: 'Query', products: Array<{ __typename?: 'Product', id: string, name: string }> };
+export type ProductsQuery = { __typename?: 'Query', productsCount: number, products: Array<{ __typename?: 'Product', id: string, name: string, timestamp: any, totalCount: number, soldCount: number, returnedCount: number, recycledCount: number, manufacturer: { __typename?: 'Manufacturer', name: string }, toxicItems: Array<{ __typename?: 'ToxicItem', id: number, name: string, timestamp: any, weight: number }> }> };
 
-export type ManufacturerFieldsFragment = { __typename?: 'Manufacturer', id: string, name: string, location: string, contact: string, timestamp: any };
+export type ProductQueryVariables = Exact<{
+  where: ProductWhereUniqueInput;
+}>;
+
+
+export type ProductQuery = { __typename?: 'Query', product: { __typename?: 'Product', id: string, name: string, timestamp: any, totalCount: number, manufacturerId: string, soldCount: number, returnedCount: number, recycledCount: number, manufacturer: { __typename?: 'Manufacturer', name: string }, toxicItems: Array<{ __typename?: 'ToxicItem', weight: number, timestamp: any, name: string, id: number }> } };
+
+export type ProductManufacturerQueryVariables = Exact<{
+  where: ProductWhereUniqueInput;
+}>;
+
+
+export type ProductManufacturerQuery = { __typename?: 'Query', product: { __typename?: 'Product', id: string, manufacturerId: string, manufacturer: { __typename?: 'Manufacturer', name: string } } };
+
+export type ManufacturerFieldsFragment = { __typename?: 'Manufacturer', id: string, name: string, location: string, contact: string, timestamp: any, totalCount: number, soldCount: number, returnedCount: number, recycledCount: number, productsCount: number };
 
 export type ManufacturersQueryVariables = Exact<{
   skip?: InputMaybe<Scalars['Float']['input']>;
@@ -440,26 +496,44 @@ export type ManufacturersQueryVariables = Exact<{
 }>;
 
 
-export type ManufacturersQuery = { __typename?: 'Query', manufacturers: Array<{ __typename?: 'Manufacturer', id: string, name: string, location: string, contact: string, timestamp: any }> };
+export type ManufacturersQuery = { __typename?: 'Query', manufacturersCount: number, manufacturers: Array<{ __typename?: 'Manufacturer', id: string, name: string, location: string, contact: string, timestamp: any, totalCount: number, soldCount: number, returnedCount: number, recycledCount: number, productsCount: number }> };
 
 export type ManufacturerQueryVariables = Exact<{
   where: ManufacturerWhereUniqueInput;
 }>;
 
 
-export type ManufacturerQuery = { __typename?: 'Query', manufacturer: { __typename?: 'Manufacturer', id: string, name: string, location: string, contact: string, timestamp: any } };
+export type ManufacturerQuery = { __typename?: 'Query', manufacturer: { __typename?: 'Manufacturer', id: string, name: string, location: string, contact: string, timestamp: any, totalCount: number, soldCount: number, returnedCount: number, recycledCount: number, productsCount: number } };
+
+export type ProductItemsQueryVariables = Exact<{
+  skip?: InputMaybe<Scalars['Float']['input']>;
+  take?: InputMaybe<Scalars['Float']['input']>;
+  cursor?: InputMaybe<ProductItemWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<ProductItemOrderByWithRelationInput> | ProductItemOrderByWithRelationInput>;
+  where?: InputMaybe<ProductItemWhereInput>;
+  distinct?: InputMaybe<Array<ProductItemScalarFieldEnum> | ProductItemScalarFieldEnum>;
+}>;
+
+
+export type ProductItemsQuery = { __typename?: 'Query', productItemsCount: number, productItems: Array<{ __typename?: 'ProductItem', id: string, status: ProductStatus, timestamp: any, product: { __typename?: 'Product', name: string }, transactions: Array<{ __typename?: 'Transaction', timestamp: any, status: ProductStatus }> }> };
 
 export const namedOperations = {
   Query: {
     Products: 'Products',
+    Product: 'Product',
+    ProductManufacturer: 'ProductManufacturer',
     Manufacturers: 'Manufacturers',
-    Manufacturer: 'Manufacturer'
+    Manufacturer: 'Manufacturer',
+    ProductItems: 'ProductItems'
   },
   Fragment: {
     ManufacturerFields: 'ManufacturerFields'
   }
 }
-export const ManufacturerFieldsFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ManufacturerFields"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Manufacturer"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"contact"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}}]}}]} as unknown as DocumentNode<ManufacturerFieldsFragment, unknown>;
-export const ProductsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Products"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"products"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<ProductsQuery, ProductsQueryVariables>;
-export const ManufacturersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Manufacturers"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"skip"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"take"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"cursor"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"ManufacturerWhereUniqueInput"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ManufacturerOrderByWithRelationInput"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"where"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"ManufacturerWhereInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"manufacturers"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"skip"},"value":{"kind":"Variable","name":{"kind":"Name","value":"skip"}}},{"kind":"Argument","name":{"kind":"Name","value":"take"},"value":{"kind":"Variable","name":{"kind":"Name","value":"take"}}},{"kind":"Argument","name":{"kind":"Name","value":"cursor"},"value":{"kind":"Variable","name":{"kind":"Name","value":"cursor"}}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}}},{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ManufacturerFields"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ManufacturerFields"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Manufacturer"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"contact"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}}]}}]} as unknown as DocumentNode<ManufacturersQuery, ManufacturersQueryVariables>;
-export const ManufacturerDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Manufacturer"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"where"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ManufacturerWhereUniqueInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"manufacturer"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ManufacturerFields"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ManufacturerFields"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Manufacturer"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"contact"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}}]}}]} as unknown as DocumentNode<ManufacturerQuery, ManufacturerQueryVariables>;
+export const ManufacturerFieldsFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ManufacturerFields"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Manufacturer"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"contact"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}},{"kind":"Field","name":{"kind":"Name","value":"totalCount"}},{"kind":"Field","name":{"kind":"Name","value":"soldCount"}},{"kind":"Field","name":{"kind":"Name","value":"returnedCount"}},{"kind":"Field","name":{"kind":"Name","value":"recycledCount"}},{"kind":"Field","name":{"kind":"Name","value":"productsCount"}}]}}]} as unknown as DocumentNode<ManufacturerFieldsFragment, unknown>;
+export const ProductsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Products"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"skip"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"take"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"cursor"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"ProductWhereUniqueInput"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ProductOrderByWithRelationInput"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"where"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"ProductWhereInput"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"distinct"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ProductScalarFieldEnum"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"products"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"skip"},"value":{"kind":"Variable","name":{"kind":"Name","value":"skip"}}},{"kind":"Argument","name":{"kind":"Name","value":"take"},"value":{"kind":"Variable","name":{"kind":"Name","value":"take"}}},{"kind":"Argument","name":{"kind":"Name","value":"cursor"},"value":{"kind":"Variable","name":{"kind":"Name","value":"cursor"}}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}}},{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}},{"kind":"Argument","name":{"kind":"Name","value":"distinct"},"value":{"kind":"Variable","name":{"kind":"Name","value":"distinct"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}},{"kind":"Field","name":{"kind":"Name","value":"totalCount"}},{"kind":"Field","alias":{"kind":"Name","value":"soldCount"},"name":{"kind":"Name","value":"getCountPerStatus"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"status"},"value":{"kind":"EnumValue","value":"SOLD"}}]},{"kind":"Field","alias":{"kind":"Name","value":"returnedCount"},"name":{"kind":"Name","value":"getCountPerStatus"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"status"},"value":{"kind":"EnumValue","value":"RETURNED"}}]},{"kind":"Field","alias":{"kind":"Name","value":"recycledCount"},"name":{"kind":"Name","value":"getCountPerStatus"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"status"},"value":{"kind":"EnumValue","value":"RECYCLED"}}]},{"kind":"Field","name":{"kind":"Name","value":"manufacturer"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"toxicItems"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}},{"kind":"Field","name":{"kind":"Name","value":"weight"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"productsCount"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}}]}]}}]} as unknown as DocumentNode<ProductsQuery, ProductsQueryVariables>;
+export const ProductDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Product"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"where"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ProductWhereUniqueInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"product"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","alias":{"kind":"Name","value":"soldCount"},"name":{"kind":"Name","value":"getCountPerStatus"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"status"},"value":{"kind":"EnumValue","value":"SOLD"}}]},{"kind":"Field","alias":{"kind":"Name","value":"returnedCount"},"name":{"kind":"Name","value":"getCountPerStatus"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"status"},"value":{"kind":"EnumValue","value":"RETURNED"}}]},{"kind":"Field","alias":{"kind":"Name","value":"recycledCount"},"name":{"kind":"Name","value":"getCountPerStatus"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"status"},"value":{"kind":"EnumValue","value":"RECYCLED"}}]},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}},{"kind":"Field","name":{"kind":"Name","value":"totalCount"}},{"kind":"Field","name":{"kind":"Name","value":"manufacturerId"}},{"kind":"Field","name":{"kind":"Name","value":"manufacturer"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"toxicItems"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"weight"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]} as unknown as DocumentNode<ProductQuery, ProductQueryVariables>;
+export const ProductManufacturerDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ProductManufacturer"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"where"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ProductWhereUniqueInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"product"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"manufacturerId"}},{"kind":"Field","name":{"kind":"Name","value":"manufacturer"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]} as unknown as DocumentNode<ProductManufacturerQuery, ProductManufacturerQueryVariables>;
+export const ManufacturersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Manufacturers"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"skip"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"take"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"cursor"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"ManufacturerWhereUniqueInput"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ManufacturerOrderByWithRelationInput"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"where"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"ManufacturerWhereInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"manufacturers"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"skip"},"value":{"kind":"Variable","name":{"kind":"Name","value":"skip"}}},{"kind":"Argument","name":{"kind":"Name","value":"take"},"value":{"kind":"Variable","name":{"kind":"Name","value":"take"}}},{"kind":"Argument","name":{"kind":"Name","value":"cursor"},"value":{"kind":"Variable","name":{"kind":"Name","value":"cursor"}}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}}},{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ManufacturerFields"}}]}},{"kind":"Field","name":{"kind":"Name","value":"manufacturersCount"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}}]}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ManufacturerFields"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Manufacturer"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"contact"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}},{"kind":"Field","name":{"kind":"Name","value":"totalCount"}},{"kind":"Field","name":{"kind":"Name","value":"soldCount"}},{"kind":"Field","name":{"kind":"Name","value":"returnedCount"}},{"kind":"Field","name":{"kind":"Name","value":"recycledCount"}},{"kind":"Field","name":{"kind":"Name","value":"productsCount"}}]}}]} as unknown as DocumentNode<ManufacturersQuery, ManufacturersQueryVariables>;
+export const ManufacturerDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Manufacturer"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"where"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ManufacturerWhereUniqueInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"manufacturer"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ManufacturerFields"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ManufacturerFields"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Manufacturer"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"contact"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}},{"kind":"Field","name":{"kind":"Name","value":"totalCount"}},{"kind":"Field","name":{"kind":"Name","value":"soldCount"}},{"kind":"Field","name":{"kind":"Name","value":"returnedCount"}},{"kind":"Field","name":{"kind":"Name","value":"recycledCount"}},{"kind":"Field","name":{"kind":"Name","value":"productsCount"}}]}}]} as unknown as DocumentNode<ManufacturerQuery, ManufacturerQueryVariables>;
+export const ProductItemsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ProductItems"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"skip"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"take"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"cursor"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"ProductItemWhereUniqueInput"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ProductItemOrderByWithRelationInput"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"where"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"ProductItemWhereInput"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"distinct"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ProductItemScalarFieldEnum"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"productItems"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"skip"},"value":{"kind":"Variable","name":{"kind":"Name","value":"skip"}}},{"kind":"Argument","name":{"kind":"Name","value":"take"},"value":{"kind":"Variable","name":{"kind":"Name","value":"take"}}},{"kind":"Argument","name":{"kind":"Name","value":"cursor"},"value":{"kind":"Variable","name":{"kind":"Name","value":"cursor"}}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orderBy"}}},{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}},{"kind":"Argument","name":{"kind":"Name","value":"distinct"},"value":{"kind":"Variable","name":{"kind":"Name","value":"distinct"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}},{"kind":"Field","name":{"kind":"Name","value":"product"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"transactions"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"timestamp"}},{"kind":"Field","name":{"kind":"Name","value":"status"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"productItemsCount"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}}]}]}}]} as unknown as DocumentNode<ProductItemsQuery, ProductItemsQueryVariables>;

@@ -1,10 +1,12 @@
+@import 'react-toastify/dist/ReactToastify.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0a0a0a;
+  --foreground: #ededed;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -24,4 +26,13 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+.Toastify__toast {
+  @apply rounded font-sans shadow-lg;
+}
+
+.Toastify__progress-bar-theme--light {
+  background: #000;
+  @apply rounded;
 }

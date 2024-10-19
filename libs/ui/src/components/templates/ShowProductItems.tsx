@@ -71,7 +71,7 @@ const ShowProductItems = ({ productId }: Props) => {
         {' '}
         {data?.productItems?.map((item) => {
           return (
-            <ProductItemCard key={item.id} productItem={item} />
+            <ProductItemCard key={item.id} productItem={item} is_owner={is_owner} />
           )
         })}
       </ShowData>

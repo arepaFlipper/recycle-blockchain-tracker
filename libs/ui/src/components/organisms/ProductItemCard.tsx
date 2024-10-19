@@ -1,12 +1,13 @@
 import { ProductItemsQuery, ProductStatus } from "@recycle-chain/network/src/gql/generated";
 import Timeline from "./Timeline";
+import { SellItem } from "./ActionButtons";
 
 export interface IProductItemCardProps {
   productItem: NonNullable<ProductItemsQuery['productItems']>[0];
   is_owner?: boolean;
 }
 
-const ProductItemCard = ({ productItem, is_owner }: IProductItemCardProps) => {
+const ProductItemCard = ({ productItem, is_owner = false }: IProductItemCardProps) => {
   return (
     <div className={`p-4 bg-[#1F1F1F] rounded ${productItem.status === ProductStatus.Recycled ? 'border-2 border-green-600 shadow-lg' : ""}`}>
       {' '}
@@ -15,7 +16,16 @@ const ProductItemCard = ({ productItem, is_owner }: IProductItemCardProps) => {
         <div className="text-sm text-gray">{productItem.product.name}</div>
       </div>
       <Timeline events={productItem.transactions} className="mt-6" />
-    </div>
+      <div className="flex gap-2 mt-6 items-center justify-end">
+        {(is_owner) && (
+          <div className="flex justify-end ">
+            {(productItem.status === ProductStatus.Manufactured) && (
+              <SellItem id={productItem.id} />
+            )}
+          </div>
+        )}
+      </div>
+    </div >
   )
 }
 

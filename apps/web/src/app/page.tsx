@@ -10,15 +10,7 @@ import { SustainabilityScene } from '@recycle-chain/3d/src/scenes/Sustainability
 
 const Home = () => {
   const { account, balance, contract, isOwner } = useAccount();
-  const { data, loading } = useQuery(ProductsDocument);
-  console.log(`🪅%cpage.tsx:9 - data`, 'font-weight:bold; background:#2fd000;color:#fff;'); //DELETEME:
-  console.log(data); // DELETEME:
-  const sample_data = [
-    { label: 'MANUFACTURED', value: 19, color: 'hsl(142,2%,75%)' },
-    { label: 'SOLD', value: 23, color: 'hsl(142,2%,36%)' },
-    { label: 'RETURNED', value: 22, color: 'hsl(142,76%,75%)' },
-    { label: 'RECYCLED', value: 121, color: 'hsl(142,76%,36%)' },
-  ]
+  const { data } = useQuery(ProductsDocument);
   return (
     <main>
       <SustainabilityScene />

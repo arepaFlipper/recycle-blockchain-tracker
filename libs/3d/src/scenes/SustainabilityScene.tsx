@@ -6,6 +6,10 @@ import React from 'react';
 import { Globe } from '../components/Globe';
 import { radians } from '../util';
 import { Rotator } from '../components/Rotator';
+import { Euler } from 'three';
+import Spawner from '../components/Spawner';
+import Circle from '../components/Circle';
+import { DURATION, SPAWN_INTERVAL } from '../util/constants';
 
 export const SustainabilityScene = ({ children, className = "" }: BaseComponent) => {
   return (
@@ -18,6 +22,16 @@ export const SustainabilityScene = ({ children, className = "" }: BaseComponent)
     >
       <Rotator speed={1.5}>
         <Globe />
+        <group rotation={new Euler(radians(0), radians(-90), radians(90))}></group>
+        <Spawner
+          spawnInterval={SPAWN_INTERVAL * 1.25}
+          duration={DURATION * 1.5}
+          initialRotation={radians(240)}
+          endRotation={radians(-120)}
+          initialDelay={DURATION / 4}
+        >
+          <Circle distance={11} />
+        </Spawner>
       </Rotator>
       <OrbitControls
         minPolarAngle={radians(0)}
@@ -25,7 +39,7 @@ export const SustainabilityScene = ({ children, className = "" }: BaseComponent)
         minDistance={60}
         maxDistance={600}
       />
-    </Canvas>
+    </Canvas >
   )
 
 }

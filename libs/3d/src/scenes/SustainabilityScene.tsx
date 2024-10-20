@@ -19,8 +19,8 @@ export const SustainabilityScene = ({ children, className = "" }: BaseComponent)
       <OrbitControls
         minPolarAngle={radians(0)}
         maxPolarAngle={radians(180)}
-        minDistance={1.5}
-        maxDistance={3}
+        minDistance={60}
+        maxDistance={600}
       />
     </Canvas>
   )

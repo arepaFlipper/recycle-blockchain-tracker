@@ -4,6 +4,7 @@ import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import React from 'react';
 import { Globe } from '../components/Globe';
+import { radians } from '../util';
 
 export const SustainabilityScene = ({ children, className = "" }: BaseComponent) => {
   return (
@@ -15,7 +16,12 @@ export const SustainabilityScene = ({ children, className = "" }: BaseComponent)
       }}
     >
       <Globe />
-      <OrbitControls />
+      <OrbitControls
+        minPolarAngle={radians(0)}
+        maxPolarAngle={radians(180)}
+        minDistance={1.5}
+        maxDistance={3}
+      />
     </Canvas>
   )
 

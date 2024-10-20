@@ -1,7 +1,6 @@
 {
   "name": "@recycle-chain/3d",
   "version": "1.0.0",
-  "main": "index.js",
   "license": "MIT",
   "dependencies": {
     "@react-three/drei": "^9.114.6",

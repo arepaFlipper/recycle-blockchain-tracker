@@ -24,7 +24,7 @@ const Spawner = (props: ISpawnerProps) => {
       const id = Date.now();
       last_spawn_time.current = id;
       setItems((prevItems) => [...prevItems, { id, progress: 0 }]);
-    }
+    };
 
     setItems((prevItems: Array<SpawnedItem>) => {
       return prevItems.map((item) => {

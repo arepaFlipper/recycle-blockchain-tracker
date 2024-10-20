@@ -1,15 +1,15 @@
 "use client"
 import { BaseComponent } from '@recycle-chain/util/src/types';
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
+import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
 import React from 'react';
 import { Globe } from '../components/Globe';
 import { radians } from '../util';
 import { Rotator } from '../components/Rotator';
-import { Euler } from 'three';
+import { Color, Euler, Vector3 } from 'three';
 import Spawner from '../components/Spawner';
 import Circle from '../components/Circle';
-import { DURATION, SPAWN_INTERVAL } from '../util/constants';
+import { DURATION, SPAWN_INTERVAL, extractor } from '../util/constants';
 
 const SustainabilityScene = ({ children, className = "" }: BaseComponent) => {
   return (
@@ -21,6 +21,14 @@ const SustainabilityScene = ({ children, className = "" }: BaseComponent) => {
       }}
     >
 
+      <PerspectiveCamera
+        makeDefault
+        fov={20}
+        near={0.1}
+        far={1000}
+        position={[400, -50, 0]}
+        rotation={[radians(0), radians(90), 0]}
+      />
       <OrbitControls
         minPolarAngle={radians(0)}
         maxPolarAngle={radians(120)}
@@ -57,6 +65,26 @@ const SustainabilityScene = ({ children, className = "" }: BaseComponent) => {
           >
             <Circle distance={9} />
           </Spawner>
+
+          {extractor.map(({ position, rotationAngle, initialDelay }) => {
+
+            return (
+              <group key={rotationAngle} position={position}
+                rotation={new Euler(0, radians(90), radians(rotationAngle))}
+              >
+                <Spawner
+                  initialDelay={initialDelay}
+                  spawnInterval={SPAWN_INTERVAL}
+                  initialRotation={radians(0)}
+                  endRotation={radians(90)}
+                  duration={DURATION / 4}
+                  position={new Vector3(0, 0, 0)}
+                >
+                  <Circle color={new Color('white')} rotation={new Euler(radians(-90), 0, 0)} distance={10} />
+                </Spawner>
+              </group>
+            )
+          })}
 
         </group>
       </Rotator>

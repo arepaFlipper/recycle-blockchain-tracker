@@ -10,6 +10,7 @@ import { ShowData } from "../organisms/ShowData";
 import ProductItemCard from "../organisms/ProductItemCard";
 import AddProductItems from "../organisms/AddProductItemsDialog"
 import { useAccount } from "@recycle-chain/util/src/hooks/ether";
+import BulkStatusUpdateDialog from "../organisms/BulkStatusUpdateDialog";
 
 type Props = {
   productId: string;
@@ -52,9 +53,10 @@ const ShowProductItems = ({ productId }: Props) => {
 
         <div>
           {(is_owner) && (
-            <>
+            <div className="flex gap-2">
               <AddProductItems productId={productId} />
-            </>
+              <BulkStatusUpdateDialog />
+            </div>
           )}
           {/* TODO: if the viewer is the owner, add and modify items */}
         </div>

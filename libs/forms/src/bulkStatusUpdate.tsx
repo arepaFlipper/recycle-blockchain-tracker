@@ -16,4 +16,4 @@ const useFormBulkStatusUpdate = () => {
   })
 }
 
-export { schemaBulkStatusUpdate };
+export { schemaBulkStatusUpdate, useFormBulkStatusUpdate };

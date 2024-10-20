@@ -13,7 +13,7 @@ export interface IProductCardProps {
 
 const ProductCard = ({ product, children }: IProductCardProps) => {
   return (
-    <div key={product.id} className="p-4 shadow-lg overflow-hidden bg-white h-full rounded flex flex-col text-gray-800">
+    <div key={product.id} className="p-4 shadow-lg overflow-hidden bg-[#252525] h-full rounded flex flex-col text-gray-200">
       <DonutChartSimplified
         total={product.totalCount}
         sold={product.soldCount}
@@ -22,11 +22,11 @@ const ProductCard = ({ product, children }: IProductCardProps) => {
       />
 
       <div className="text-center mt-4">
-        <h2 className="font-bold text-xl text-gray-800">{product.name}</h2>
+        <h2 className="font-bold text-xl text-white">{product.name}</h2>
       </div>
 
       <div className="text-center mt-1">
-        <h2 className="font-medium text-gray-800">{product.manufacturer.name}</h2>
+        <h2 className="font-medium text-gray-100">{product.manufacturer.name}</h2>
       </div>
 
       <div className="flex gap-1 justify-center text-sm mt-2 ">

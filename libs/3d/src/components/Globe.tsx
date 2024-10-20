@@ -4,7 +4,7 @@ import React, { useRef, useState } from 'react'
 import { Mesh, MeshBasicMaterial, TextureLoader } from 'three'
 import { radians } from '../util'
 
-export const Globe = () => {
+const Globe = () => {
   const texture = useLoader(TextureLoader, '/textures/earth_8k.jpeg')
   const globeRef = useRef<Mesh>(null)
   const overlayRef = useRef<Mesh>(null)
@@ -37,5 +37,7 @@ export const Globe = () => {
         <meshBasicMaterial color="darkred" transparent={true} opacity={0.5} />
       </Sphere>
     </>
-  )
-}
+  );
+};
+
+export default Globe;

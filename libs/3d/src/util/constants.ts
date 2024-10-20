@@ -1,4 +1,5 @@
 import { Vector3 } from "three";
+
 export const DURATION = 12;
 export const SPAWN_INTERVAL = .2;
 export const extractor = [
@@ -19,3 +20,21 @@ export const extractor = [
   },
 ];
 
+
+export const pollution = [
+  {
+    position: new Vector3(-30, -18, 31.18),
+    rotationAngle: 120,
+    initialDelay: DURATION / 4,
+  },
+  {
+    position: new Vector3(-30, -18, -31.18),
+    rotationAngle: 240,
+    initialDelay: DURATION / 4,
+  },
+  {
+    position: new Vector3(-30, 36, 0),
+    rotationAngle: 0,
+    initialDelay: DURATION / 4,
+  },
+];

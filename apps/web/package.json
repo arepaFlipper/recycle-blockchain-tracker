@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@recycle-chain/network": "*",
+    "@recycle-chain/3d": "*",
     "@recycle-chain/ui": "*",
     "d3": "^7.9.0",
     "ethers": "^6.13.0",

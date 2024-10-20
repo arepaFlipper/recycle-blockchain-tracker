@@ -6,6 +6,7 @@ import { useQuery } from "@apollo/client";
 import { ProductsDocument } from "@recycle-chain/network/src/gql/generated";
 import { HtmlInput } from '@recycle-chain/ui/src/components/atoms/HtmlInput';
 import { HtmlLabel } from '@recycle-chain/ui/src/components/atoms/HtmlLabel';
+import { SustainabilityScene } from '@recycle-chain/3d/scenes/SustainabilityScene';
 
 const Home = () => {
   const { account, balance, contract, isOwner } = useAccount();
@@ -20,7 +21,8 @@ const Home = () => {
   ]
   return (
     <main>
-      <CustomDonutChart data={sample_data} />
+      <SustainabilityScene />
+      {/* <CustomDonutChart data={sample_data} /> */}
       <div>Account: {account}</div>
       <div>Balance: {balance}</div>
       <div>Is it Owner: {String(isOwner)}</div>

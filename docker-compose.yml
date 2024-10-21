@@ -71,7 +71,7 @@ services:
       - .:/app
     command: sh -c "npm i && npm run web"
     ports:
-      - "8081:8081"   # Exposing Metro bundler port
+      # - "8081:8081"   # Exposing Metro bundler port
       - "19001:19001"   # WebSocket debugger port
       - "19002:19002"   # Logs/DevTools port
     environment:

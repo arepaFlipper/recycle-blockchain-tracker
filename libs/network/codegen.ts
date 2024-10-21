@@ -17,6 +17,10 @@ const config: CodegenConfig = {
     './src/gql/generated.tsx': {
       documents: `./src/${documentsPattern}`,
       plugins,
+    },
+    '../../standalone/mobile-apps/gql/generated.tsx': {
+      documents: `../../standalone/mobile-apps/gql/${documentsPattern}`,
+      plugins,
     }
   }
 }

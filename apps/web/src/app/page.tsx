@@ -7,13 +7,36 @@ import { ProductsDocument } from "@recycle-chain/network/src/gql/generated";
 import { HtmlInput } from '@recycle-chain/ui/src/components/atoms/HtmlInput';
 import { HtmlLabel } from '@recycle-chain/ui/src/components/atoms/HtmlLabel';
 import SustainabilityScene from '@recycle-chain/3d/src/scenes/SustainabilityScene';
+import Link from "next/link";
 
 const Home = () => {
   const { account, balance, contract, isOwner } = useAccount();
   const { data } = useQuery(ProductsDocument);
   return (
     <main>
-      <SustainabilityScene />
+      <div className="absolute inset-x-0">
+        <SustainabilityScene />
+      </div>
+      <div className="absolute inset-x-0 max-w-3xl p-6 md:p-12 text-white">
+        <h1 className="font-black text-3xl md:text-5xl sm:text-6xl ">
+          Have you wondered, {' '}
+          where do our{' '}
+          <span className="bg-gradient-to-tr from-gray to-red text-transparent bg-clip-text whitespace-nowrap ">
+            toxic wastes
+          </span>{' '}
+          go?
+        </h1>
+        <div className="flex gap-2 mt-4">
+          {["manufacturers", "products"].map((path) => {
+            const upper_case = path[0].toUpperCase() + path.slice(1);
+            return (
+              <Link key={path} href={`/${path}`} className="bg-black text-white px-4 py-2">
+                {upper_case}
+              </Link>
+            )
+          })}
+        </div>
+      </div>
       {/* <CustomDonutChart data={sample_data} /> */}
       <div>Account: {account}</div>
       <div>Balance: {balance}</div>

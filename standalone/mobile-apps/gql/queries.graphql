@@ -1,3 +1,25 @@
+query Product($where: ProductWhereUniqueInput!){
+  product(where: $where){
+    id
+    name
+    soldCount: getCountPerStatus(status: SOLD)
+    returnedCount: getCountPerStatus(status: RETURNED)
+    recycledCount: getCountPerStatus(status: RECYCLED)
+    timestamp
+    totalCount
+    manufacturerId
+    manufacturer {
+      name
+    }
+    toxicItems {
+      weight
+      timestamp
+      name
+      id
+    }
+  }
+}
+
 query Products(
   $skip: Float
   $take: Float

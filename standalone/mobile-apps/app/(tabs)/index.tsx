@@ -1,35 +1,41 @@
 "use client"
-import { StyleSheet } from 'react-native';
+import { FlatList, StyleSheet } from 'react-native';
 
 import EditScreenInfo from '@/components/EditScreenInfo';
 import { Text, View } from '@/components/Themed';
 import { useQuery } from '@apollo/client';
-import { ManufacturersDocument } from '../../gql/generated';
+import { ProductsDocument, ProductsQuery } from '../../gql/generated';
 
 export default function TabOneScreen() {
-  const { data, loading } = useQuery(ManufacturersDocument);
+  const { data, loading, fetchMore } = useQuery(ProductsDocument);
+
+  const loadMore = async () => {
+    await fetchMore({
+      variables: {
+        skip: data?.products?.length,
+        take: 8,
+      }
+    })
+  };
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
+    <View>
+      <FlatList
+        <ProductsQuery['products'][0]>
+        data={data?.products}
+        renderItem={({ item }) => {
+          console.log(`👓%ctwo.tsx:26 - item`, 'font-weight:bold; background:#6a9500;color:#fff;'); //DELETEME:
+          console.log(item); // DELETEME:
+          return (
+            <View>
+              <Text>{item.name}</Text>
+              <Text>{item.manufacturer.name}</Text>
+            </View>
+          )
+        }}
+        onEndReached={loadMore}
+      />
     </View>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-});

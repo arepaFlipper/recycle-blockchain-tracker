@@ -50,7 +50,7 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <ThemeProvider value={DarkTheme}>
       <ApolloProvider>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />

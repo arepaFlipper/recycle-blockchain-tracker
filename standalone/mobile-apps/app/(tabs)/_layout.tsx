@@ -9,10 +9,10 @@ import { useClientOnlyValue } from '@/components/useClientOnlyValue';
 import { styles } from '@/components/recycle-chain/ManufacturerCard';
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
-function TabBarIcon(props: {
+export const TabBarIcon = (props: {
   name: React.ComponentProps<typeof FontAwesome>['name'];
   color: string;
-}) {
+}) => {
   return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
 }
 

@@ -121,3 +121,32 @@ query Manufacturer($where: ManufacturerWhereUniqueInput!) {
     ...ManufacturerFields
   }
 }
+
+
+query Transactions(
+  $skip: Float
+  $take: Float
+  $cursor: TransactionWhereUniqueInput
+  $orderBy: [TransactionOrderByWithRelationInput!]
+  $where: TransactionWhereInput
+  $distinct: [TransactionScalarFieldEnum!]
+) {
+  transactions(
+    skip: $skip
+    take: $take
+    cursor: $cursor
+    orderBy: $orderBy
+    where: $where
+    distinct: $distinct
+  ) {
+    status
+    productItemId
+    timestamp
+    id
+    productItem {
+      product{
+        name
+      }
+    }
+  }
+}

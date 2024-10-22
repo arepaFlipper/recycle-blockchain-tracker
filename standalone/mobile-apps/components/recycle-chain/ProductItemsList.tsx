@@ -11,7 +11,7 @@ type Props = {
 }
 
 const ProductItemsList = ({ productId, searchQuery }: Props) => {
-  const { data: productItemsData, loading: productItemsLoading, fetchMore } = useQuery(ProductItemsDocument, {
+  const { data: productItemsData, loading, fetchMore } = useQuery(ProductItemsDocument, {
     variables: {
       where: {
         productId: { equals: productId },
@@ -31,10 +31,14 @@ const ProductItemsList = ({ productId, searchQuery }: Props) => {
     });
   }
 
-  if (productItemsLoading) {
+  if (loading) {
     return <Text>Loading...</Text>
-
   }
+
+  if (!productItemsData?.productItems.length) {
+    return (<Text>No items found.</Text>)
+  }
+
   return (
     <FlatList<ProductItemsQuery['productItems'][0]>
       data={productItemsData?.productItems}

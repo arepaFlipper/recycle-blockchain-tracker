@@ -1,17 +1,21 @@
 import { ManufacturersQuery } from "@/gql/generated";
-import { View, Text, StyleSheet } from "react-native";
+import { useRouter } from "expo-router";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 interface ManufacturerCardProps {
   manufacturer: ManufacturersQuery['manufacturers'][0];
 }
 
 const ManufacturerCard = ({ manufacturer }: ManufacturerCardProps) => {
+  const router = useRouter();
   return (
-    <View style={styles.card}>
-      <Text style={styles.title}>{manufacturer.name}</Text>
-      <Text style={styles.description}>{manufacturer.location}</Text>
-      <Text style={styles.description}>{manufacturer.contact}</Text>
-    </View>
+    <TouchableOpacity onPress={() => router.push(`/manufacturer?manufacturerId=${manufacturer.id}`)}>
+      <View style={styles.card}>
+        <Text style={styles.title}>{manufacturer.name}</Text>
+        <Text style={styles.description}>{manufacturer.location}</Text>
+        <Text style={styles.description}>{manufacturer.contact}</Text>
+      </View>
+    </TouchableOpacity>
   );
 
 }
@@ -29,7 +33,7 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 8,
-    color: '#fff',
+    color: '#FFF',
   },
   description: {
     fontSize: 12,

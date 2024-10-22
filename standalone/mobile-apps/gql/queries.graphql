@@ -150,3 +150,9 @@ query Transactions(
     }
   }
 }
+
+query Manufacturer($where: ManufacturerWhereUniqueInput!) {
+  manufacturer(where: $where) {
+    ...ManufacturerFields
+  }
+}

@@ -2,6 +2,7 @@ import StatusGrid from '@/components/recycle-chain/StatusGrid'
 import ToxicItemsChart from '@/components/recycle-chain/ToxicItemsChart'
 import { ProductDocument } from '@/gql/generated'
 import { useQuery } from '@apollo/client'
+import { Entypo } from '@expo/vector-icons'
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native'
 import { useRouter } from 'expo-router'
 import { useEffect } from 'react'
@@ -11,7 +12,7 @@ type RootStackParamList = {
   product: { productId: string }
 }
 
-type ProductScreenRouteProp = RouteProp<RootStackParamList, 'product'>
+export type ProductScreenRouteProp = RouteProp<RootStackParamList, 'product'>
 
 const ProductScreen = () => {
   const route = useRoute<ProductScreenRouteProp>()
@@ -37,6 +38,9 @@ const ProductScreen = () => {
     return <Text>Product not found.</Text>
   }
 
+  const on_press = () => {
+    router.push(`/productItems?productId=${data.product.id}`);
+  }
   return (
     <View style={styles.container}>
       <View style={styles.productDetails}>
@@ -49,12 +53,23 @@ const ProductScreen = () => {
           total={data.product.totalCount}
         />
         <ToxicItemsChart toxic_items={data.product.toxicItems} />
+        <TouchableOpacity
+          style={styles.actionButtonContainer}
+          onPress={on_press}
+        >
+          <View style={styles.actionButton}>
+            <Text style={{ color: 'white' }}>View all items</Text>
+            <Text>
+              <Entypo name="chevron-right" size={16} color="white" />
+            </Text>
+          </View>
+        </TouchableOpacity>
       </View>
     </View>
   )
 };
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     flex: 1,
     color: '#fff',

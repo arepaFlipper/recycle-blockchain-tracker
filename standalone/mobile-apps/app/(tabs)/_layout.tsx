@@ -18,8 +18,6 @@ function TabBarIcon(props: {
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
-  console.log(`🧾%c_layout.tsx:20 - colorScheme`, 'font-weight:bold; background:#59a600;color:#fff;'); //DELETEME:
-  console.log(colorScheme); // DELETEME:
 
   return (
     <Tabs

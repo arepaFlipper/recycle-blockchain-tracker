@@ -35,6 +35,9 @@ export const styles = StyleSheet.create({
     fontSize: 12,
     marginBottom: 4,
     color: '#fff',
+  },
+  container: {
+    backgroundColor: '#181825',
   }
 })
 

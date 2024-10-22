@@ -12,70 +12,21 @@ services:
     volumes:
       - db_data_recycle_chain_workshop:/var/lib/postgresql/data
 
-  api:
+  app:
     image: node:latest
-    working_dir: /app/apps/api
-    volumes:
-      - .:/app
-    command: sh -c "yarn && yarn dev"
-    env_file:
-      - apps/api/.env
-    ports:
-      - "3001:3000"
-    depends_on:
-      - db
-
-  prisma:
-    image: node:latest
+    container_name: recycle_app
     working_dir: /app
     volumes:
       - .:/app
-    command: sh -c "yarn && cd apps/api && npx prisma studio"
+    command: sh -c "./entrypoint.sh"
     env_file:
-      - apps/api/.env
+      - .env
     ports:
-      - "5555:5555"
-    depends_on:
-      - db
-
-  web:
-    image: node:latest
-    working_dir: /app/
-    volumes:
-      - .:/app
-    command: sh -c "yarn && cd apps/web && yarn dev"
-    env_file:
-      - apps/web/.env
-    ports:
-      - "3002:3000"
-    depends_on:
-      - api
-
-  ui:
-    image: node:latest
-    working_dir: /app/
-    volumes:
-      - .:/app
-    command: sh -c "yarn && cd libs/ui && yarn dev"
-    env_file:
-      - apps/web/.env
-    ports:
-      - "3003:3000"
-    depends_on:
-      - db
-
-  mobile:
-    image: node:latest
-    working_dir: /app/standalone/mobile-apps
-    volumes:
-      - .:/app
-    command: sh -c "npm i && npm run web"
-    ports:
-      # - "8081:8081"   # Exposing Metro bundler port
-      - "19001:19001"   # WebSocket debugger port
-      - "19002:19002"   # Logs/DevTools port
-    environment:
-      - REACT_NATIVE_PACKAGER_HOSTNAME=0.0.0.0  # Ensures bundler listens for requests
+      - "3001:3000" # API
+      - "3002:3002" # Web
+      - "3003:3003" # UI
+      - "5555:5555" # Prisma
+      - "8081:8081" # Prisma
     depends_on:
       - db
 

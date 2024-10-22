@@ -55,16 +55,17 @@ const ProductItemTimelineScreen = () => {
       <TabBarIcon name="dot-circle-o" color="#000" />
     )
   }
+
   return (
     <FlatList<TransactionsQuery['transactions'][0]>
       data={data?.transactions || []}
       renderItem={({ item, index }) => {
         const is_active = index === (data?.transactions?.length || 0) - 1;
         return (
-          <View>
-            <TabBarIcon name={statusIconMap[item.status]} color={is_active ? 'orange' : 'gray'} />
+          <View style={is_active ? styles.productItemActive : styles.productItem}>
+            <TabBarIcon name={statusIconMap[item.status]} color={is_active ? 'lightgreen' : 'gray'} />
             <View style={styles.textContainer}>
-              <Text style={styles.date}>
+              <Text style={[styles.date, { color: is_active ? 'white' : 'gray' }]}>
                 {format(new Date(item.timestamp), 'PPp')}
               </Text>
             </View>
@@ -84,6 +85,22 @@ const styles = StyleSheet.create({
     marginBottom: 4,
     fontSize: 18,
     color: '#fff',
+  },
+  productItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 16,
+    backgroundColor: "rgba(255,255,255,0.1)",
+    marginBottom: 8,
+  },
+  productItemActive: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 16,
+    backgroundColor: "#666",
+    marginBottom: 8,
+    borderBottomWidth: 4,
+    borderBottomColor: 'lightgreen',
   }
 });
 

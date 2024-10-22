@@ -8,6 +8,7 @@ import 'react-native-reanimated';
 
 import { useColorScheme } from '@/components/useColorScheme';
 import { ApolloProvider } from '../config/apollo';
+import { MyTheme } from '@/constants/MyTheme';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -50,7 +51,7 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
   return (
-    <ThemeProvider value={DarkTheme}>
+    <ThemeProvider value={MyTheme}>
       <ApolloProvider>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />

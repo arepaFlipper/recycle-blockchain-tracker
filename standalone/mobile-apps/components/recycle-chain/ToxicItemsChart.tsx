@@ -1,6 +1,7 @@
 import { ProductsQuery } from '@/gql/generated';
 import React from 'react'
 import { View, StyleSheet, Text } from 'react-native';
+import ProgressBar from './ProgressBar';
 
 type Props = {
   toxic_items: ProductsQuery['products'][0]['toxicItems'];
@@ -12,8 +13,6 @@ const ToxicItemsChart = ({ toxic_items }: Props) => {
     <View style={styles.container}>
       {toxic_items.map((item) => {
         const width_percentage = (item.weight / total_weight) * 100;
-        console.log(`⏺️%cToxicItemsChart.tsx:15 - width_percentage`, 'font-weight:bold; background:#48b700;color:#fff;'); //DELETEME:
-        console.log(width_percentage); // DELETEME:
         return (
           <View key={item.id} style={styles.itemContainer}>
             <View style={styles.itemInfo}>
@@ -21,11 +20,7 @@ const ToxicItemsChart = ({ toxic_items }: Props) => {
               <Text style={styles.itemWeight}>{item.weight} mg</Text>
             </View>
 
-            <View style={styles.progressBarContainer}>
-              <View style={[styles.progressBar, { width: `${width_percentage}%` }]}>
-                <Text style={styles.itemWeight}>{width_percentage}%</Text>
-              </View>
-            </View>
+            <ProgressBar width_percentage={width_percentage} />
           </View>
         )
       })}
@@ -55,19 +50,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     color: '#FFF',
   },
-  progressBar: {
-    height: 5,
-    backgroundColor: '#FFF',
-    borderRadius: 4,
-    borderWidth: 1,
-    borderColor: '#FFF',
-  },
-  progressBarContainer: {
-    borderColor: '#FFF',
-    width: '100%',
-    borderWidth: 1,
-    borderRadius: 4,
-  }
 });
 
 export default ToxicItemsChart

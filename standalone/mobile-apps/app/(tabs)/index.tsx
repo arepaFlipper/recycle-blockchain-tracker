@@ -5,6 +5,7 @@ import EditScreenInfo from '@/components/EditScreenInfo';
 import { Text, View } from '@/components/Themed';
 import { useQuery } from '@apollo/client';
 import { ProductsDocument, ProductsQuery } from '../../gql/generated';
+import ProductCard from '@/components/recycle-chain/ProductCard';
 
 export default function TabOneScreen() {
   const { data, loading, fetchMore } = useQuery(ProductsDocument);
@@ -19,18 +20,13 @@ export default function TabOneScreen() {
   };
 
   return (
-    <View>
+    <View style={{ backgroundColor: '#252525' }}>
       <FlatList
         <ProductsQuery['products'][0]>
         data={data?.products}
         renderItem={({ item }) => {
-          console.log(`👓%ctwo.tsx:26 - item`, 'font-weight:bold; background:#6a9500;color:#fff;'); //DELETEME:
-          console.log(item); // DELETEME:
           return (
-            <View>
-              <Text>{item.name}</Text>
-              <Text>{item.manufacturer.name}</Text>
-            </View>
+            <ProductCard product={item} />
           )
         }}
         onEndReached={loadMore}

@@ -23,8 +23,6 @@ export default function TabTwoScreen() {
         <ManufacturersQuery['manufacturers'][0]>
         data={data?.manufacturers}
         renderItem={({ item }) => {
-          console.log(`👓%ctwo.tsx:26 - item`, 'font-weight:bold; background:#6a9500;color:#fff;'); //DELETEME:
-          console.log(item); // DELETEME:
           return <ManufacturerCard manufacturer={item} />
         }}
         onEndReached={loadMore}

@@ -16,12 +16,14 @@ const ManufacturerCard = ({ manufacturer }: ManufacturerCardProps) => {
 
 }
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   card: {
     backgroundColor: '#000',
-    padding: 10,
-    borderRadius: 5,
-    marginBottom: 16,
+    padding: 8,
+    borderRadius: 10,
+    marginBottom: 12,
+    borderWidth: 1,
+    borderColor: '#fff',
   },
   title: {
     fontSize: 16,

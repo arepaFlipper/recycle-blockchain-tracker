@@ -1,31 +1,37 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from 'react-native'
 
 interface ProductCardProps {
-  total: number;
-  sold: number;
-  returned: number;
-  recycled: number;
+  total: number
+  sold: number
+  returned: number
+  recycled: number
 }
 
-const StatusGrid = ({ total, sold, returned, recycled }: ProductCardProps) => {
-  const inventory = total - (sold + returned + recycled);
+const StatusGrid: React.FC<ProductCardProps> = ({
+  total,
+  sold,
+  returned,
+  recycled,
+}) => {
+  const inventory = total - (sold + returned + recycled)
+
   return (
     <View style={styles.statusGrid}>
       <View style={styles.statusItem}>
         <Text style={styles.statusItemTitle}>Inventory</Text>
-        <Text style={styles.description}>{inventory}</Text>
+        <Text style={styles.statusItemTitle}>{inventory}</Text>
       </View>
-      <View style={styles.card}>
-        <Text style={styles.title}>Sold</Text>
-        <Text style={styles.description}>{sold}</Text>
+      <View style={styles.statusItem}>
+        <Text style={styles.statusItemTitle}>Sold</Text>
+        <Text style={styles.statusItemTitle}>{sold}</Text>
       </View>
-      <View style={styles.card}>
-        <Text style={styles.title}>Returned</Text>
-        <Text style={styles.description}>{returned}</Text>
+      <View style={styles.statusItem}>
+        <Text style={styles.statusItemTitle}>Returned</Text>
+        <Text style={styles.statusItemTitle}>{returned}</Text>
       </View>
-      <View style={styles.card}>
-        <Text style={styles.title}>Recycled</Text>
-        <Text style={styles.description}>{recycled}</Text>
+      <View style={styles.statusItem}>
+        <Text style={styles.statusItemTitle}>Recycled</Text>
+        <Text style={styles.statusItemTitle}>{recycled}</Text>
       </View>
     </View>
   )
@@ -33,49 +39,26 @@ const StatusGrid = ({ total, sold, returned, recycled }: ProductCardProps) => {
 
 const styles = StyleSheet.create({
   statusGrid: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 16,
+    flexDirection: 'row', // Set flexDirection to row for horizontal layout
+    gap: 4,
     marginTop: 12,
-  },
-  card: {
-    backgroundColor: '#000',
-    padding: 8,
-    borderRadius: 10,
-    marginBottom: 12,
-    borderWidth: 1,
-    borderColor: '#fff',
-  },
-  title: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginBottom: 8,
+    marginBottom: 16,
     color: '#fff',
   },
-  description: {
-    fontSize: 12,
-    marginBottom: 4,
-    color: '#fff',
-  },
-  container: {
-    backgroundColor: '#181825',
-  },
-
   statusItem: {
-    width: '25%',
+    width: '24.25%',
     alignItems: 'center',
     padding: 6,
     borderWidth: 0.5,
     borderColor: '#ccc',
     borderRadius: 8,
+    color: '#fff',
+    backgroundColor: 'rgba(250, 250, 250, 0.4)',
   },
   statusItemTitle: {
-    fontSize: 12,
-    fontWeight: 'bold',
     marginBottom: 4,
     color: '#fff',
   },
 })
 
 export default StatusGrid;
-

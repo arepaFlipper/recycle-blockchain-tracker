@@ -2,6 +2,7 @@ import { ProductsQuery } from '@/gql/generated';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { styles } from './ManufacturerCard';
 import { useRouter } from 'expo-router';
+import StatusGrid from './StatusGrid';
 
 type Props = {
   product: ProductsQuery['products'][0];

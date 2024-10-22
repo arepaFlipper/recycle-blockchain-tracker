@@ -3,6 +3,7 @@ import { useQuery } from "@apollo/client";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { Text, StyleSheet, View } from "react-native";
 import { useEffect } from "react";
+import StatusGrid from "@/components/recycle-chain/StatusGrid";
 
 type RootStackParamList = {
   product: { productId: string };
@@ -41,6 +42,12 @@ const ProductScreen = () => {
         <Text style={styles.title}>{data.product.name}</Text>
         <Text style={styles.description}>{data.product.manufacturer.name}</Text>
         <Text style={styles.description}>{data.product.totalCount} items</Text>
+        <StatusGrid
+          sold={data.product.soldCount}
+          returned={data.product.returnedCount}
+          recycled={data.product.recycledCount}
+          total={data.product.totalCount}
+        />
       </View>
     </View>
   )

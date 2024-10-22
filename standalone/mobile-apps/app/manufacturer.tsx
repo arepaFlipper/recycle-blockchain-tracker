@@ -4,6 +4,7 @@ import { useQuery } from "@apollo/client";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { useEffect } from "react";
 import StatusGrid from "@/components/recycle-chain/StatusGrid";
+import ManufacturerProducts from "@/components/recycle-chain/ManufacturerProducts";
 
 type RootStackParamList = {
   manufacturer: { manufacturerId: string };
@@ -47,6 +48,7 @@ const ManufacturerScreen = () => {
           returned={data.manufacturer.returnedCount || 0}
           recycled={data.manufacturer.recycledCount || 0}
         />
+        <ManufacturerProducts manufacturerId={manufacturerId} />
       </View>
     </View>
   )

@@ -58,6 +58,7 @@ function RootLayoutNav() {
           <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
           <Stack.Screen name="product" />
           <Stack.Screen name="productItems" />
+          <Stack.Screen name="productItemTimeline" />
         </Stack>
       </ApolloProvider>
     </ThemeProvider>

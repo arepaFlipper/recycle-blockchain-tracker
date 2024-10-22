@@ -1,3 +1,4 @@
+import ProductItemsList from "@/components/recycle-chain/ProductItemsList";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native"
 import { useEffect, useState } from "react";
 import { TextInput, View, StyleSheet } from "react-native";
@@ -32,7 +33,7 @@ const ProductItemsScreen = () => {
         keyboardAppearance="default"
         placeholderTextColor={'#ddd'}
       />
-      {/* <ProductItemsList productId={productId} searchQuery={searchQuery} /> */}
+      <ProductItemsList productId={productId} searchQuery={searchQuery} />
     </View>
   )
 }

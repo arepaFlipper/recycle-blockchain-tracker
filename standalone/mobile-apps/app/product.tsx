@@ -1,11 +1,11 @@
 import StatusGrid from '@/components/recycle-chain/StatusGrid'
+import ToxicItemsChart from '@/components/recycle-chain/ToxicItemsChart'
 import { ProductDocument } from '@/gql/generated'
 import { useQuery } from '@apollo/client'
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native'
 import { useRouter } from 'expo-router'
 import { useEffect } from 'react'
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
-import Entypo from '@expo/vector-icons/Entypo'
 
 type RootStackParamList = {
   product: { productId: string }
@@ -48,10 +48,11 @@ const ProductScreen = () => {
           recycled={data.product.recycledCount}
           total={data.product.totalCount}
         />
+        <ToxicItemsChart toxic_items={data.product.toxicItems} />
       </View>
     </View>
   )
-}
+};
 
 const styles = StyleSheet.create({
   container: {

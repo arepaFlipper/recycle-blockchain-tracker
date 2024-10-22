@@ -8,9 +8,9 @@ interface ManufacturerCardProps {
 const ManufacturerCard = ({ manufacturer }: ManufacturerCardProps) => {
   return (
     <View style={styles.card}>
-      <Text style={styles.text}>{manufacturer.name}</Text>
-      <Text style={styles.text}>{manufacturer.location}</Text>
-      <Text style={styles.text}>{manufacturer.contact}</Text>
+      <Text style={styles.title}>{manufacturer.name}</Text>
+      <Text style={styles.description}>{manufacturer.location}</Text>
+      <Text style={styles.description}>{manufacturer.contact}</Text>
     </View>
   );
 
@@ -21,12 +21,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#000',
     padding: 10,
     borderRadius: 5,
-    margin: 5,
+    marginBottom: 16,
   },
-  text: {
-    color: '#fff',
+  title: {
     fontSize: 16,
-    marginBottom: 5,
+    fontWeight: 'bold',
+    marginBottom: 8,
+    color: '#fff',
+  },
+  description: {
+    fontSize: 12,
+    marginBottom: 4,
+    color: '#fff',
   }
 })
 

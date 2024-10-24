@@ -1,6 +1,6 @@
 import { ReactNode, ElementType } from "react";
 import { Icon as IconType } from "@tabler/icons-react";
-import { RecycleChain } from "../../../standalone/recycle-chain-contract/typechain-types";
+import { RecycleChain } from "./typechain-types";
 
 export type MenuItem = {
   label: string;

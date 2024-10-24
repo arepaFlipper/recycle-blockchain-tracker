@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { RecycleChain, RecycleChain__factory } from '../../../../standalone/recycle-chain-contract/typechain-types';
+import { RecycleChain__factory, RecycleChain } from '../../typechain-types';
 import { ethers } from 'ethers';
 import { contractAddress } from "../../util/contract";
 

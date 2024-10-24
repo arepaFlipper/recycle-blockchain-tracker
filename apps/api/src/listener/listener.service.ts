@@ -1,6 +1,6 @@
 import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { ethers } from 'ethers';
-import { RecycleChain__factory, RecycleChain } from '../../../../standalone/recycle-chain-contract/typechain-types';
+import { RecycleChain__factory, RecycleChain } from '../common/typechain-types';
 import { contractAddress } from 'src/common/prisma/utils';
 import { PrismaService } from 'src/common/prisma/prisma.service';
 import { ProductStatus } from '@prisma/client';
@@ -53,6 +53,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy {
       this.contract.on(
         this.contract.filters.ManufacturerRegistered,
         async (id, name, location, contact, event) => {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           const blockNumber = event.log.blockNumber;
           const timestamp = await this.getBlockTimeStamp(blockNumber);
@@ -69,6 +70,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy {
       this.contract.on(
         this.contract.filters.ProductCreated,
         async (productId, name, manufacturer, event) => {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           const blockNumber = event.log.blockNumber
           const timestamp = await this.getBlockTimeStamp(blockNumber)
@@ -85,6 +87,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy {
       this.contract.on(
         this.contract.filters.ProductItemsStatusChanged,
         async (productItemIds, statusIndex, event) => {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           const timestamp = await this.getBlockTimeStamp(event.log.blockNumber);
 
@@ -107,6 +110,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy {
       this.contract.on(
         this.contract.filters.ProductItemsAdded,
         async (productItemIds, productId, event) => {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           const timestamp = await this.getBlockTimeStamp(event.log.blockNumber);
 
@@ -127,6 +131,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy {
       this.contract.on(
         this.contract.filters.ToxicItemCreated,
         async (productId, name, weight, event) => {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           const timestamp = await this.getBlockTimeStamp(event.log.blockNumber);
 
